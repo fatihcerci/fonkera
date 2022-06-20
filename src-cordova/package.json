@@ -1,8 +1,8 @@
 {
-  "name": "com.lenora.lenodesign",
-  "displayName": "LENODESIGN",
+  "name": "com.lenora.fonkera",
+  "displayName": "FONKERA",
   "version": "1.0.0",
-  "description": "LENODESIGN",
+  "description": "FONKERA",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

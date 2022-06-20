@@ -153,9 +153,9 @@ module.exports = configure(function (ctx) {
       },
 
       manifest: {
-        name: `LENODESIGN`,
-        short_name: `LENODESIGN`,
-        description: `LENODESIGN`,
+        name: `FONKERA`,
+        short_name: `FONKERA`,
+        description: `FONKERA`,
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',

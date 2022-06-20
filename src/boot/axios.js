@@ -5,7 +5,6 @@ import { Loading, QSpinnerFacebook } from "quasar"
 
 const api = axios.create({
   baseURL: Api.Base.URL,
-  withCredentials: true,
 })
 
 // Add a request interceptor

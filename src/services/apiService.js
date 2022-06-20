@@ -7,6 +7,7 @@ import { Api } from "../helpers/api"
 import { Messages } from "../helpers/messages"
 import { Loading, QSpinnerFacebook, useQuasar } from "quasar"
 import { useRouter } from "vue-router"
+import notify from "../helpers/notification"
 
 
 import chartController from "src/controllers/chartController"
@@ -38,7 +39,7 @@ const apiService = () => {
 
   const {isRefreshedReportStatusesChart, isRefreshedFileStatusesChart} = chartController()
   const {setCacheParameter} = cache()
-  const fetch = async (cmd, bodyData, showProgress) => {
+  const fetch = async (method, bodyData, showProgress) => {
     if(showProgress) {
       Loading.show({
         spinner: QSpinnerFacebook,
@@ -52,33 +53,22 @@ const apiService = () => {
     }
 
     try {
-      const url = bodyData ? `/dispatch?cmd=${cmd}&jsonBody=true` : `/dispatch?cmd=${cmd}`
-      const response = bodyData ?
-      await api.request({url: url,method: "POST", data: bodyData}) :
-      await api.request({url: url,method: "POST"})
-      const { data, error, messages } = response.data
-      dataList.value = data
-      displayError.value = error
-      displayMessages.value = messages
+      const url = `/api/v1/users/${method}`
+      const response = await api.request({url: url,method: "POST", data: bodyData})
+      const { data, status } = response
+      dataList.value =  data
+      displayError.value = !data.status.success
+      displayMessages.value = data.status.message
 
-      if(messages && messages[0].text.includes("Oturum bulunamadı")) {
-        timer = setTimeout(() => {
-          timer = void 0
-          localStorage.clear()
-          document.location.reload()
-        }, 3500)
-        
-      }
+      if(!data.status.success) { throw new Error(displayMessages.value) } else if(data.status.success && data.status.message) { notify().success(data.status.message, "top") }
     } catch (error) {
-      if(error.message.includes("Network Error")) {
-          throw new Error("Sunucuya erişilemiyor. Lütfen daha sonra tekrar deneyiniz")
-        }
+        notify().error(error.message)
     } finally {
       Loading.hide()
     }
   }
 
-  
+
 
   /*const loadClaimData = async (expertCode) => {
     const url = `/dispatch?cmd=listOtoDisiDisEksperDurumlari&jp={'eksperKodu':${expertCode}}`
@@ -131,11 +121,11 @@ const apiService = () => {
     } finally {
       Loading.hide()
     }
-    
 
-    
 
-    
+
+
+
   }
 
   const fetchExpertClaimData = async () => {

@@ -1,10 +1,7 @@
 export class Api {
   static Base = class {
-    //static get URL() { return 'https://cshasar.somposigorta.com.tr/sigorta' }
-    static get URL() { return window.location.origin + '/sigorta' }
-    //static get URL() { return 'http://localhost:8080/sigorta' }
-    static get ServiceURL() { return this.URL + '/dispatch' }
-    static get AppealURL() { return 'https://cshasar.somposigorta.com.tr/side/ihalefirmabasvuru.jsp' }
+    static get URL() { return "http://localhost/fonkerarest" }
+    //static get URL() { return "http://ironpunch.org" }
   }
 
   static Tender = class {

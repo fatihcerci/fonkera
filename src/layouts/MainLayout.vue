@@ -1,18 +1,18 @@
 <template>
 
   <q-layout view="lHh Lpr lFf">
-    <q-header class="text-white bg-primary" height-hint="10">
+    <q-header class="text-white bg-secondary" height-hint="10">
       <q-toolbar class="">
-        <h6 class="text-white q-my-xs q-px-xs">LENODESIGN</h6>
+        <h6 class="text-white q-my-xs q-px-xs">FONKERA</h6>
       </q-toolbar>
     </q-header>
-    
-    
+
+
     <q-page-container>
       <router-view />
     </q-page-container>
 
-    
+
 
   </q-layout>
 </template>
