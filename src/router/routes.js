@@ -1,5 +1,7 @@
 import Main from "layouts/MainLayout.vue"
 import Home from "pages/Home.vue"
+import Users from "pages/Users.vue"
+import UserView from "pages/UserView.vue"
 
 const routes = [
   /*{
@@ -49,6 +51,16 @@ const routes = [
       {
         path: "",
         component: Home,
+        meta: { requiresAuth: false },
+      },
+      {
+        path: "/users",
+        component: Users,
+        meta: { requiresAuth: false },
+      },
+      {
+        path: "/users/user",
+        component: UserView,
         meta: { requiresAuth: false },
       },
     ],
