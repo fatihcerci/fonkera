@@ -33,7 +33,6 @@ export default {
           password : "123456"
         }
         await fetch("test_method", bodyData, true)
-        console.log(dataList.value)
         state.resp = dataList.value
       } catch (e) {
       }

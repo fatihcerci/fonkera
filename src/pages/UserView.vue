@@ -7,44 +7,41 @@
         </q-card-section>
 
 
-        <q-card-section class="">
-          <q-form
-          class="q-gutter-md"
-          @reset="onReset"
-        >
-        
+        <q-card-section class="q-gutter-md">
           <q-input
-            filled  
-            v-model="adi"
+            filled
+            v-model="name"
             label="Adı"
+            :rules="[val => !!val || 'Zorunlu alan']"
           />
           <q-input
-            filled  
-            v-model="soyadi" 
-            label="Soyadı" 
+            filled
+            v-model="surname"
+            label="Soyadı"
+            :rules="[val => !!val || 'Zorunlu alan']"
             />
           <q-input
             filled
-            v-model="unvan"
+            v-model="title"
             label="Unvan"
           />
           <q-input
             filled
-            v-model="gsm"
+            v-model="phone"
             label="Telefon"
+            mask="0(###) ### ####"
           />
           <q-input
             filled
-            v-model="eposta"
+            v-model="email"
             label="Eposta"
           />
 
           <div>
-            <q-btn label="Kaydet" type="submit" color="primary"/>
-            <q-btn label="Temizle" type="reset" color="primary" class="q-ml-sm" />
+            <q-btn label="Kaydet" color="primary" @click="saveUser()"/>
+            <q-btn label="Temizle" color="primary" @click="onReset" class="q-ml-sm" />
           </div>
 
-        </q-form>
         </q-card-section>
       </q-card>
     </div>
@@ -54,7 +51,9 @@
 <script>
 import { defineAsyncComponent, onMounted, ref, toRefs, reactive } from "vue"
 import { useQuasar } from 'quasar'
+import { useRouter } from "vue-router"
 import apiService from "../services/apiService"
+import userController from "../controllers/userController"
 
 export default {
   name: "UserView",
@@ -66,15 +65,20 @@ export default {
 
     const { fetch, dataList } = apiService()
 
+    const { selectedUser } = userController()
+
     const state = reactive({
-      adi : null,
-      soyadi : null,
-      unvan : null,
-      gsm : null,
-      eposta : null
+      id : selectedUser.value ? selectedUser.value.id : null,
+      status : selectedUser.value ? selectedUser.value.status : null,
+      name : selectedUser.value ? selectedUser.value.name : null,
+      surname : selectedUser.value ? selectedUser.value.surname : null,
+      title : selectedUser.value ? selectedUser.value.title : null,
+      phone : selectedUser.value ? selectedUser.value.phone : null,
+      email : selectedUser.value ? selectedUser.value.email : null
     })
 
-    
+    const router = useRouter()
+
     onMounted(async () => {
       try {
         const bodyData = {
@@ -86,15 +90,28 @@ export default {
       }
     })
 
+    const saveUser = async () => {
+      debugger
+      try {
+        await fetch("create_user", state, true)
+        if(dataList.value.status.success) {
+          router.push("/users")
+        }
+      } catch (e) {
+      }
+    }
+
 
     return {
+      router,
       ...toRefs(state),
+      saveUser,
       onReset () {
-        state.adi = null,
-        state.soyadi = null,
-        state.unvan = null,
-        state.gsm = null,
-        state.eposta = null
+        state.name = null,
+        state.surname = null,
+        state.title = null,
+        state.phone = null,
+        state.email = null
       }
     }
   },

@@ -25,7 +25,7 @@
           <template v-slot:top-right="props">
 
             <q-btn color="primary" unelevated label="Yeni Ekle" @click="editUser(null)" class="q-mr-sm" />
-            
+
             <q-input
               standout
               dense
@@ -56,10 +56,21 @@
             <q-td :props="props">
               <q-avatar>
                 <img
-                  :src="props.row.avatar"
+                  :src="props.row.avatar ? props.row.avatar : 'https://cdn.quasar.dev/img/boy-avatar.png'"
                 />
               </q-avatar>
             </q-td>
+          </template>
+
+          <template v-slot:body-cell-status="props">
+            <q-td :props="props">
+              <q-toggle
+                color=""
+                v-bind:model-value="props.row.status == 1 ? true : false"
+                @click="updateStatus(props.row)"
+              />
+            </q-td>
+
           </template>
 
           <template v-slot:body-cell-islemler="props">
@@ -72,15 +83,6 @@
               >
               </q-btn>
             </q-td>
-            <q-td :props="props">
-              <q-btn
-                size="sm"
-                color="primary"
-                label="Sil"
-              >
-              </q-btn>
-            </q-td>
-
           </template>
 
 
@@ -90,7 +92,7 @@
   </div>
 
 
-  
+
 </template>
 
 <script>
@@ -99,11 +101,8 @@ import { exportFile, useQuasar } from "quasar"
 import { useRouter } from "vue-router"
 import apiService from "../../services/apiService"
 import usersService from "../../services/usersService"
-import claimController from "../../controllers/claimController"
-import messageController from "../../controllers/messageController"
+import userController from "../../controllers/userController"
 import notify from "../../helpers/notification"
-import { Api } from "../../helpers/api"
-import { Format } from "../../helpers/format"
 
 const columns = [
   {
@@ -115,41 +114,41 @@ const columns = [
     required : true
   },
   {
-    name: "adi",
+    name: "name",
     label: "Adı",
-    field: "adi",
+    field: "name",
     align: "left",
     headerStyle: 'font-size:16px',
     required : true
   },
   {
-    name: "soyadi",
+    name: "surname",
     label: "Soyadı",
-    field: "soyadi",
+    field: "surname",
     align: "left",
     headerStyle: 'font-size:16px;',
     required : true
   },
   {
-    name: "unvan",
+    name: "title",
     label: "Ünvan",
-    field: "unvan",
+    field: "title",
     align: "left",
     headerStyle: 'font-size:16px',
     required : true
   },
   {
-    name: "gsm",
+    name: "phone",
     label: "Telefon",
-    field: "gsm",
+    field: "phone",
     align: "left",
     headerStyle: 'font-size:16px',
     required : true
   },
   {
-    name: "eposta",
+    name: "email",
     label: "E-Posta",
-    field: "eposta",
+    field: "email",
     align: "left",
     headerStyle: 'font-size:16px',
     required : true
@@ -175,14 +174,16 @@ const columns = [
 export default {
   name: "TableUsers",
   components: {
-    
+
   },
   setup(props, { emit }) {
     const { dataList, claimDataSource, displayError, displayMessages, fetch } =
       apiService()
+
+    const { selectedUser, userList } = userController()
+
     const router = useRouter()
     const $q = useQuasar()
-    const { claimDetail, infoList, selectedClaim, offerList } = claimController()
     let filter = ref("")
     let mode = computed(() => {
       return false
@@ -191,7 +192,7 @@ export default {
     const hasUser = usersService().hasUser()
 
     const state = reactive({
-      
+
     })
 
 /*
@@ -201,8 +202,8 @@ export default {
     */
 
     const rows = computed(() => {
-      return dataList.value && dataList.value.data && dataList.value.data.length > 0
-        ? dataList.value.data.map((item) => ({
+      return userList.value && userList.value && userList.value.length > 0
+        ? userList.value.map((item) => ({
             ...item,
           }))
         : []
@@ -212,11 +213,10 @@ export default {
       debugger
       try {
         const bodyData = {
-          
+
         }
         await fetch("list_users", bodyData, true)
-        console.log(dataList.value)
-        state.resp = dataList.value
+        userList.value = dataList.value.data
       } catch (e) {
       }
     })
@@ -263,9 +263,29 @@ export default {
     }
 
     const editUser = (row) => {
-      alert(JSON.stringify(row))
+      debugger
+      selectedUser.value = row
       router.push("/users/user")
     }
+
+    const updateStatus = (row) => {
+      debugger
+      const data = userList.value.find((item) => item.id === row.id)
+      if(data.status == 0) {
+        data.status = 1
+      } else {
+        data.status = 0
+      }
+
+      const bodyData = {
+        id : row.id,
+        status : data.status
+      }
+      fetch("activate_passivate_user", bodyData, true)
+    }
+
+
+
 
 
     return {
@@ -284,6 +304,7 @@ export default {
       exportTable,
       fetch,
       editUser,
+      updateStatus
     }
   },
 }

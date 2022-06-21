@@ -39,7 +39,10 @@ const apiService = () => {
 
   const {isRefreshedReportStatusesChart, isRefreshedFileStatusesChart} = chartController()
   const {setCacheParameter} = cache()
+
+
   const fetch = async (method, bodyData, showProgress) => {
+
     if(showProgress) {
       Loading.show({
         spinner: QSpinnerFacebook,
@@ -53,6 +56,7 @@ const apiService = () => {
     }
 
     try {
+      debugger
       const url = `/api/v1/users/${method}`
       const response = await api.request({url: url,method: "POST", data: bodyData})
       const { data, status } = response
