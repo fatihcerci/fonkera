@@ -3,7 +3,7 @@
     <div class="col-12">
       <q-card flat class="bg-grey-2">
         <q-card-section>
-          <div class="text-h6">Kullanıcı Ekle</div>
+          <div class="text-h6">Grup Ekle / Düzenle</div>
         </q-card-section>
 
 
@@ -16,29 +16,32 @@
           />
           <q-input
             filled
-            v-model="surname"
-            label="Soyadı"
+            v-model="description"
+            label="Açıklama"
             :rules="[val => !!val || 'Zorunlu alan']"
             />
-          <q-input
-            filled
-            v-model="title"
-            label="Unvan"
-          />
           <q-input
             filled
             v-model="phone"
             label="Telefon"
             mask="0(###) ### ####"
+            :rules="[val => !!val || 'Zorunlu alan']"
           />
           <q-input
             filled
             v-model="email"
             label="Eposta"
+            :rules="[val => !!val || 'Zorunlu alan']"
+          />
+          <q-input
+            filled
+            v-model="address"
+            label="Adres"
+            :rules="[val => !!val || 'Zorunlu alan']"
           />
 
           <div>
-            <q-btn label="Kaydet" color="primary" @click="saveUser()"/>
+            <q-btn label="Kaydet" color="primary" @click="saveGroup()"/>
             <q-btn label="Temizle" color="primary" @click="onReset" class="q-ml-sm" />
           </div>
 
@@ -52,11 +55,11 @@
 import { defineAsyncComponent, onMounted, ref, toRefs, reactive } from "vue"
 import { useQuasar } from 'quasar'
 import { useRouter } from "vue-router"
-import apiService from "../services/apiService"
-import userController from "../controllers/userController"
+import apiService from "../../services/apiService"
+import groupController from "../../controllers/groupController"
 
 export default {
-  name: "UserView",
+  name: "GroupView",
   components: {
 
   },
@@ -65,37 +68,28 @@ export default {
 
     const { fetch, dataList } = apiService()
 
-    const { selectedUser } = userController()
+    const { selectedGroup } = groupController()
 
     const state = reactive({
-      id : selectedUser.value ? selectedUser.value.id : null,
-      status : selectedUser.value ? selectedUser.value.status : null,
-      name : selectedUser.value ? selectedUser.value.name : null,
-      surname : selectedUser.value ? selectedUser.value.surname : null,
-      title : selectedUser.value ? selectedUser.value.title : null,
-      phone : selectedUser.value ? selectedUser.value.phone : null,
-      email : selectedUser.value ? selectedUser.value.email : null
+      id : selectedGroup.value ? selectedGroup.value.id : null,
+      status : selectedGroup.value ? selectedGroup.value.status : null,
+      name : selectedGroup.value ? selectedGroup.value.name : null,
+      description : selectedGroup.value ? selectedGroup.value.description : null,
+      phone : selectedGroup.value ? selectedGroup.value.phone : null,
+      email : selectedGroup.value ? selectedGroup.value.email : null,
+      address : selectedGroup.value ? selectedGroup.value.address : null
     })
 
     const router = useRouter()
 
     onMounted(async () => {
-      try {
-        const bodyData = {
-          username : "fatih_cerci",
-          password : "123456"
-        }
-        //await fetch("test_method", bodyData, true)
-      } catch (e) {
-      }
     })
 
-    const saveUser = async () => {
-      debugger
+    const saveGroup = async () => {
       try {
-        await fetch("create_user", state, true)
+        await fetch("groups/create_update", state, true)
         if(dataList.value.status.success) {
-          router.push("/users")
+          router.push("/groups")
         }
       } catch (e) {
       }
@@ -105,13 +99,13 @@ export default {
     return {
       router,
       ...toRefs(state),
-      saveUser,
+      saveGroup,
       onReset () {
         state.name = null,
-        state.surname = null,
-        state.title = null,
+        state.description = null,
         state.phone = null,
         state.email = null
+        state.address = null
       }
     }
   },

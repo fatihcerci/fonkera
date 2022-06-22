@@ -10,7 +10,7 @@
 import { defineAsyncComponent, onMounted, ref, toRefs, reactive } from "vue"
 import { useQuasar } from 'quasar'
 import { useRouter } from "vue-router"
-import apiService from "../services/apiService"
+import apiService from "../../services/apiService"
 
 export default {
   name: "Users",
@@ -30,7 +30,7 @@ export default {
     })
 
     onMounted(async () => {
-      
+
     })
 
 

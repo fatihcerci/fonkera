@@ -17,7 +17,7 @@
     </q-header>
 
     <q-drawer show-if-above v-model="leftDrawerOpen" side="left" bordered class="bg-grey-3">
-      
+
       <q-item  class="bg-grey-8 q-pa-md">
         <q-item-section avatar>
           <q-avatar>
@@ -28,27 +28,54 @@
       </q-item>
 
       <q-list class="rounded-borders text-primary">
+
         <q-item
           clickable
           @click="router.push('/')"
         >
           <q-item-section avatar>
-            <q-icon name="inbox" />
+            <q-icon name="home" />
           </q-item-section>
 
           <q-item-section>Ana Sayfa</q-item-section>
         </q-item>
 
-        <q-item
-          clickable
-          @click="router.push('/users')"
-        >
-          <q-item-section avatar>
-            <q-icon name="send" />
-          </q-item-section>
+        <q-expansion-item :content-inset-level="0.5" expand-separator icon="corporate_fare" label="Organizasyon Tanımları">
 
-          <q-item-section>Kullanıcılar</q-item-section>
-        </q-item>
+          <q-item
+            clickable
+            @click="router.push('/groups')"
+          >
+            <q-item-section avatar>
+              <q-icon name="groups" />
+            </q-item-section>
+
+            <q-item-section>Grup Tanımları</q-item-section>
+          </q-item>
+
+          <q-item
+            clickable
+            @click="router.push('/roles')"
+          >
+            <q-item-section avatar>
+              <q-icon name="manage_accounts" />
+            </q-item-section>
+
+            <q-item-section>Rol Tanımları</q-item-section>
+          </q-item>
+
+          <q-item
+            clickable
+            @click="router.push('/users')"
+          >
+            <q-item-section avatar>
+              <q-icon name="person_add" />
+            </q-item-section>
+
+            <q-item-section>Kullanıcı Tanımları</q-item-section>
+          </q-item>
+
+        </q-expansion-item>
 
       </q-list>
     </q-drawer>

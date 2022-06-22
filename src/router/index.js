@@ -6,7 +6,6 @@ import {
   createWebHashHistory,
 } from "vue-router"
 import routes from "./routes"
-import usersService from "../services/usersService"
 /*
  * If not building with SSR mode, you can
  * directly export the Router instantiation;
@@ -36,12 +35,13 @@ export default route(function (/* { store, ssrContext } */) {
   })
 
   Router.beforeEach((to, from, next) => {
-    const { hasUser } = usersService()
+    /*const { hasUser } = usersService()
     if (to.meta.requiresAuth && !hasUser()) {
       next("/auth")
     } else {
       next()
-    }
+    }*/
+    next()
   })
 
   return Router

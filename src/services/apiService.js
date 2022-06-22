@@ -1,7 +1,5 @@
 import { ref, onBeforeUnmount } from "vue"
 import { api } from "boot/axios"
-import { store } from "boot/store"
-import { CacheTypes } from "../helpers/cache"
 import cache from "../helpers/cache"
 import { Api } from "../helpers/api"
 import { Messages } from "../helpers/messages"
@@ -10,14 +8,7 @@ import { useRouter } from "vue-router"
 import notify from "../helpers/notification"
 
 
-import chartController from "src/controllers/chartController"
-import router from "src/router"
-
-
 const dataList = ref()
-//const cacheList = ref()
-const claimList = ref()
-const claimDataSource = ref()
 const displayError = ref()
 const displayMessages = ref()
 
@@ -25,7 +16,6 @@ const displayMessages = ref()
  * THIS CONNECTS TO ICAP
  */
 const apiService = () => {
-  const route = useRouter()
 
   let timer
   const $q = useQuasar()
@@ -36,10 +26,6 @@ const apiService = () => {
       $q.loading.hide()
     }
   })
-
-  const {isRefreshedReportStatusesChart, isRefreshedFileStatusesChart} = chartController()
-  const {setCacheParameter} = cache()
-
 
   const fetch = async (method, bodyData, showProgress) => {
 
@@ -57,7 +43,7 @@ const apiService = () => {
 
     try {
       debugger
-      const url = `/api/v1/users/${method}`
+      const url = `/api/v1/${method}`
       const response = await api.request({url: url,method: "POST", data: bodyData})
       const { data, status } = response
       dataList.value =  data
@@ -72,102 +58,13 @@ const apiService = () => {
     }
   }
 
-
-
-  /*const loadClaimData = async (expertCode) => {
-    const url = `/dispatch?cmd=listOtoDisiDisEksperDurumlari&jp={'eksperKodu':${expertCode}}`
-    const response = await api.request({
-      url: url,
-      method: "POST",
-    })
-
-    const { data, error, messages } = response.data
-    claimList.value = data
-    claimDataSource.value = data ? data.otoDisiDisEksperViewList
-      .filter(item => item.akisAktif === 1 || !item.akisAktif) : []
-    displayError.value = error
-    displayMessages.value = messages
-  }
-  */
-
-  const loadClaimData = async (expertCode) => {
-    Loading.show({
-      spinner: QSpinnerFacebook,
-      spinnerColor: 'red',
-      spinnerSize: 150,
-      backgroundColor: 'black',
-      message: Messages.progress,
-      messageColor: 'white',
-      boxClass: 'font-19'
-
-    })
-
-    const url = `/dispatch?cmd=listIhalesiDevamEdenAraclar&jsonBody=true`
-    const bodyData = {
-      ihaleNo : null,
-      serviceUrl : Api.Base.ServiceURL
-    }
-
-    try {
-      const response = await api.request({
-        url: url,
-        method: "POST",
-        data: bodyData
-      })
-
-      const { data, error, messages } = response.data
-      claimList.value = data
-      claimDataSource.value = data ? data : []
-      displayError.value = error
-      displayMessages.value = messages
-    } catch (error) {
-      throw error
-    } finally {
-      Loading.hide()
-    }
-
-
-
-
-
-  }
-
-  const fetchExpertClaimData = async () => {
-    const expertCode = localStorage.getItem("expertCode")
-    //Get claim data
-    await loadClaimData()
-    //Get cacheable data
-    await loadCacheData()
-    isRefreshedReportStatusesChart.value = false
-    isRefreshedFileStatusesChart.value = false
-  }
-
-  const loadCacheData = async () => {
-    const parameters = await store.getItem('parameters')
-    if (!parameters) {
-      await fetch(Api.Common.LIST_CACHE_URL, CacheTypes)
-      if (dataList.value) {
-        const cacheData = JSON.parse(JSON.stringify(dataList.value))
-        await store.setItem('parameters', cacheData)
-        setCacheParameter()
-      }
-    }
-  }
-
   return {
     // PROPERTIES
-    route,
     dataList,
-    claimList,
-    claimDataSource,
     displayError,
     displayMessages,
     // FUNCTIONS
-    fetch,
-    loadClaimData,
-    fetchExpertClaimData,
-    loadCacheData,
-    setCacheParameter,
+    fetch
   }
 }
 export default apiService

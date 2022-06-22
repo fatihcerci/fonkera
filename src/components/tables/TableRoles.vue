@@ -18,13 +18,13 @@
           rows-per-page-label="Satır Sayısı"
           no-data-label="Kayıt bulunamadı"
           no-results-label="Eşleşen kayıt bulunamadı"
-          title="Kullanıcılar"
+          title="Rol Tanımları"
           title-class="text-bold"
         >
 
           <template v-slot:top-right="props">
 
-            <q-btn color="primary" unelevated label="Yeni Ekle" @click="editUser(null)" class="q-mr-sm" />
+            <q-btn color="primary" unelevated label="Yeni Ekle" @click="editRole(null)" class="q-mr-sm" />
 
             <q-input
               standout
@@ -52,16 +52,6 @@
             </q-btn>
           </template>
 
-          <template v-slot:body-cell-avatar="props">
-            <q-td :props="props">
-              <q-avatar>
-                <img
-                  :src="props.row.avatar ? props.row.avatar : 'https://cdn.quasar.dev/img/boy-avatar.png'"
-                />
-              </q-avatar>
-            </q-td>
-          </template>
-
           <template v-slot:body-cell-status="props">
             <q-td :props="props">
               <q-toggle
@@ -79,7 +69,7 @@
                 size="sm"
                 color="primary"
                 label="Güncelle"
-                @click="editUser(props.row)"
+                @click="editRole(props.row)"
               >
               </q-btn>
             </q-td>
@@ -97,28 +87,30 @@
 
 <script>
 import { defineAsyncComponent, onMounted, ref, computed, toRefs, reactive, watch } from "vue"
-import { exportFile, useQuasar } from "quasar"
+import { exportFile, useQuasar, date } from "quasar"
 import { useRouter } from "vue-router"
 import apiService from "../../services/apiService"
-import userController from "../../controllers/userController"
 import notify from "../../helpers/notification"
+import roleController from "src/controllers/roleController"
 
 const columns = [
   {
-    name: "avatar",
-    label: "",
-    field: "avatar",
-    align: "center",
-    style: "width: 80px",
-    required : true
-  },
-  {
-    name: "tckn",
-    label: "T.C Kimlik No",
-    field: "tckn",
+    name: "created_time",
+    label: "Oluşturulma Zamanı",
+    field: "created_time",
     align: "left",
     headerStyle: 'font-size:16px',
-    required : true
+    required : true,
+    format: val => date.formatDate(val, 'DD/MM/YYYY HH:mm:ss')
+  },
+  {
+    name: "last_updated",
+    label: "Güncellenme Zamanı",
+    field: "last_updated",
+    align: "left",
+    headerStyle: 'font-size:16px',
+    required : true,
+    format: val => date.formatDate(val, 'DD/MM/YYYY HH:mm:ss')
   },
   {
     name: "name",
@@ -129,43 +121,11 @@ const columns = [
     required : true
   },
   {
-    name: "surname",
-    label: "Soyadı",
-    field: "surname",
+    name: "description",
+    label: "Açıklama",
+    field: "description",
     align: "left",
     headerStyle: 'font-size:16px;',
-    required : true
-  },
-  {
-    name: "title",
-    label: "Ünvan",
-    field: "title",
-    align: "left",
-    headerStyle: 'font-size:16px',
-    required : true
-  },
-  {
-    name: "birthdate",
-    label: "Doğum Tarihi",
-    field: "birthdate",
-    align: "left",
-    headerStyle: 'font-size:16px',
-    required : true
-  },
-  {
-    name: "phone",
-    label: "Telefon",
-    field: "phone",
-    align: "left",
-    headerStyle: 'font-size:16px',
-    required : true
-  },
-  {
-    name: "email",
-    label: "E-Posta",
-    field: "email",
-    align: "left",
-    headerStyle: 'font-size:16px',
     required : true
   },
   {
@@ -187,15 +147,15 @@ const columns = [
 ]
 
 export default {
-  name: "TableUsers",
+  name: "TableRoles",
   components: {
 
   },
   setup(props, { emit }) {
-    const { dataList, claimDataSource, displayError, displayMessages, fetch } =
+    const { dataList, displayError, displayMessages, fetch } =
       apiService()
 
-    const { selectedUser, userList, groupOptions, roleOptions } = userController()
+    const { selectedRole, roleList } = roleController()
 
     const router = useRouter()
     const $q = useQuasar()
@@ -215,8 +175,8 @@ export default {
     */
 
     const rows = computed(() => {
-      return userList.value && userList.value && userList.value.length > 0
-        ? userList.value.map((item) => ({
+      return roleList.value && roleList.value && roleList.value.length > 0
+        ? roleList.value.map((item) => ({
             ...item,
           }))
         : []
@@ -228,8 +188,8 @@ export default {
         const bodyData = {
 
         }
-        await fetch("users/get_all", bodyData, true)
-        userList.value = dataList.value.data
+        await fetch("roles/get_all", bodyData, true)
+        roleList.value = dataList.value.data
       } catch (e) {
       }
     })
@@ -275,45 +235,15 @@ export default {
       }
     }
 
-    const editUser = async (row) => {
+    const editRole = (row) => {
       debugger
-      await getGroups()
-      await getRoles()
-      selectedUser.value = row
-      router.push("/users/view")
-    }
-
-    const getGroups = async () => {
-      try {
-        debugger
-        await fetch("groups/get_all", {}, true)
-        let optList = dataList.value.data.map((item) => ({...item}))
-        if(groupOptions.length != optList.length) {
-          optList.forEach(element => {
-            groupOptions.push({value:element.id, label:element.name})
-          })
-        }
-      } catch (e) {
-      }
-    }
-
-    const getRoles = async () => {
-      try {
-        debugger
-        await fetch("roles/get_all", {}, true)
-        let optList = dataList.value.data.map((item) => ({...item}))
-        if(roleOptions.length != optList.length) {
-          optList.forEach(element => {
-            roleOptions.push({value:element.id, label:element.name})
-          })
-        }
-      } catch (e) {
-      }
+      selectedRole.value = row
+      router.push("/roles/view")
     }
 
     const updateStatus = (row) => {
       debugger
-      const data = userList.value.find((item) => item.id === row.id)
+      const data = roleList.value.find((item) => item.id === row.id)
       if(data.status == 0) {
         data.status = 1
       } else {
@@ -324,7 +254,7 @@ export default {
         id : row.id,
         status : data.status
       }
-      fetch("users/activate_passivate", bodyData, true)
+      fetch("roles/activate_passivate", bodyData, true)
     }
 
 
@@ -334,7 +264,6 @@ export default {
       columns,
       rows,
       dataList,
-      claimDataSource,
       displayError,
       displayMessages,
       filter,
@@ -343,7 +272,7 @@ export default {
       wrapCsvValue,
       exportTable,
       fetch,
-      editUser,
+      editRole,
       updateStatus
     }
   },
