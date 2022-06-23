@@ -238,7 +238,7 @@ export default {
     const editRole = (row) => {
       debugger
       selectedRole.value = row
-      router.push("/roles/view")
+      router.push("/organization/roles/view")
     }
 
     const updateStatus = (row) => {

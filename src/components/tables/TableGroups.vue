@@ -262,7 +262,7 @@ export default {
     const editGroup = (row) => {
       debugger
       selectedGroup.value = row
-      router.push("/groups/view")
+      router.push("/organization/groups/view")
     }
 
     const updateStatus = (row) => {

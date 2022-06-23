@@ -44,7 +44,7 @@
 
           <q-item
             clickable
-            @click="router.push('/groups')"
+            @click="router.push('/organization/groups')"
           >
             <q-item-section avatar>
               <q-icon name="groups" />
@@ -55,7 +55,7 @@
 
           <q-item
             clickable
-            @click="router.push('/roles')"
+            @click="router.push('/organization/roles')"
           >
             <q-item-section avatar>
               <q-icon name="manage_accounts" />
@@ -66,7 +66,7 @@
 
           <q-item
             clickable
-            @click="router.push('/users')"
+            @click="router.push('/organization/users')"
           >
             <q-item-section avatar>
               <q-icon name="person_add" />
@@ -80,15 +80,25 @@
       </q-list>
     </q-drawer>
 
-    
+
 
     <q-page-container>
+      <!--
       <div class="q-pa-sm" v-if="$q.screen.gt.sm">
           <q-toolbar class="bg-grey-8 text-white font-12 shadow-1 rounded-borders">
             <q-breadcrumbs active-color="white">
               <q-breadcrumbs-el label="Ana Sayfa" icon="home" to="/" />
               <q-breadcrumbs-el label="Organizasyon Tanımları" icon="corporate_fare" />
               <q-breadcrumbs-el label="Kullanıcı Tanımları" icon="person_add" />
+            </q-breadcrumbs>
+          </q-toolbar>
+      </div>
+      -->
+
+      <div class="q-pa-sm" v-if="$q.screen.gt.sm">
+          <q-toolbar class="bg-grey-8 text-white font-12 shadow-1 rounded-borders">
+            <q-breadcrumbs active-color="white">
+              <q-breadcrumbs-el v-for="item in crumbs" :key="item.text" :label="item.text" :icon="item.icon" :to="item.to" />
             </q-breadcrumbs>
           </q-toolbar>
       </div>
@@ -110,6 +120,59 @@ export default {
   name: "MainLayout",
   components: {
   },
+  computed: {
+    crumbs: function() {
+      debugger
+      let pathArray = this.$route.path.split("/")
+      //pathArray.shift()
+      let breadcrumbs = pathArray.reduce((breadcrumbArray, path, idx) => {
+        if(!this.$route.matched[idx]) {
+          return breadcrumbArray
+        }
+
+        if(this.$route.matched[idx].meta && this.$route.matched[idx].meta.parent) {
+          let breadCrumbObj = {
+            path: this.$route.matched[idx].meta.parent.path,
+            to: this.$route.matched[idx].meta.parent.path,
+            text: this.$route.matched[idx] ? (this.$route.matched[idx].meta.parent.breadCrumb || path) : (this.$route.matched[idx-1].meta.parent.breadCrumb || path),
+            icon: this.$route.matched[idx] ? this.$route.matched[idx].meta.parent.icon : this.$route.matched[idx-1].meta.parent.icon,
+          }
+          breadcrumbArray.push(breadCrumbObj)
+
+          breadCrumbObj = {
+            path: this.$route.matched[idx].path,
+            to: this.$route.matched[idx].path,
+            text: this.$route.matched[idx].meta.breadCrumb,
+            icon: this.$route.matched[idx].meta.icon
+          }
+
+          if(breadCrumbObj.to.includes("//")) {
+            breadCrumbObj.to = breadCrumbObj.to.substring(1, breadCrumbObj.to.length)
+          }
+          breadcrumbArray.push(breadCrumbObj)
+
+        } else {
+          let breadCrumbObj = {
+            path: path,
+            to: breadcrumbArray[idx - 1]
+              ?  breadcrumbArray[idx - 1].to + "/" + path
+              : "/" + path,
+            text: this.$route.matched[idx] ? (this.$route.matched[idx].meta.breadCrumb || path) : (this.$route.matched[idx-1].meta.breadCrumb || path),
+            icon: this.$route.matched[idx] ? this.$route.matched[idx].meta.icon : this.$route.matched[idx-1].meta.icon,
+          }
+
+          if(breadCrumbObj.to.includes("//")) {
+            breadCrumbObj.to = breadCrumbObj.to.substring(1, breadCrumbObj.to.length)
+          }
+          breadcrumbArray.push(breadCrumbObj)
+        }
+
+        return breadcrumbArray
+      }, [])
+      return breadcrumbs
+    }
+  },
+
   setup() {
     const $q = useQuasar()
 

@@ -3,8 +3,6 @@
 
     <router-view />
 
-    <table-groups />
-
   </q-page>
 </template>
 
@@ -17,9 +15,6 @@ import apiService from "../../services/apiService"
 export default {
   name: "Groups",
   components: {
-    TableGroups: defineAsyncComponent(() =>
-      import("src/components/tables/TableGroups.vue")
-    )
   },
 
   setup() {

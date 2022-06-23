@@ -3,7 +3,7 @@ import { api } from "boot/axios"
 import cache from "../helpers/cache"
 import { Api } from "../helpers/api"
 import { Messages } from "../helpers/messages"
-import { Loading, QSpinnerFacebook, useQuasar } from "quasar"
+import { Loading, QSpinnerAudio, QSpinnerBall, QSpinnerBars, QSpinnerBox, QSpinnerClock, QSpinnerComment, QSpinnerCube, QSpinnerDots, QSpinnerFacebook, QSpinnerGears, QSpinnerGrid, QSpinnerHearts, QSpinnerHourglass, QSpinnerInfinity, QSpinnerIos, QSpinnerOrbit, QSpinnerOval, QSpinnerPie, QSpinnerPuff, QSpinnerRadio, QSpinnerRings, QSpinnerTail, useQuasar } from "quasar"
 import { useRouter } from "vue-router"
 import notify from "../helpers/notification"
 
@@ -31,13 +31,13 @@ const apiService = () => {
 
     if(showProgress) {
       Loading.show({
-        spinner: QSpinnerFacebook,
-        spinnerColor: 'red',
-        spinnerSize: 150,
+        spinner: QSpinnerHourglass,
+        spinnerColor: 'white',
+        spinnerSize: 180,
         backgroundColor: 'black',
         message: Messages.progress,
         messageColor: 'white',
-        boxClass: 'font-19'
+        boxClass: 'font-22'
       })
     }
 
@@ -67,4 +67,5 @@ const apiService = () => {
     fetch
   }
 }
+
 export default apiService

@@ -1,4 +1,5 @@
 <template>
+
   <div class="row q-pa-md">
     <div class="col-12">
       <q-card flat class="bg-grey-2">
@@ -89,7 +90,7 @@ export default {
       try {
         await fetch("groups/create_update", state, true)
         if(dataList.value.status.success) {
-          router.push("/groups")
+          router.push("/organization/groups")
         }
       } catch (e) {
       }

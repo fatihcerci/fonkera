@@ -18,7 +18,7 @@
           rows-per-page-label="Satır Sayısı"
           no-data-label="Kayıt bulunamadı"
           no-results-label="Eşleşen kayıt bulunamadı"
-          title="Kullanıcılar"
+          title="Kullanıcı Tanımları"
           title-class="text-bold"
         >
 
@@ -280,7 +280,7 @@ export default {
       await getGroups()
       await getRoles()
       selectedUser.value = row
-      router.push("/users/view")
+      router.push("/organization/users/view")
     }
 
     const getGroups = async () => {

@@ -66,7 +66,7 @@ export default {
       try {
         await fetch("roles/create_update", state, true)
         if(dataList.value.status.success) {
-          router.push("/roles")
+          router.push("/organization/roles")
         }
       } catch (e) {
       }

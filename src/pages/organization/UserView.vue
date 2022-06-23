@@ -194,7 +194,7 @@ export default {
 
         await fetch("users/create_update", bodyData, true)
         if(dataList.value.status.success) {
-          router.push("/users")
+          router.push("/organization/users")
         }
       } catch (e) {
       }
