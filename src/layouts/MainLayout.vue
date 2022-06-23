@@ -80,7 +80,19 @@
       </q-list>
     </q-drawer>
 
+    
+
     <q-page-container>
+      <div class="q-pa-sm" v-if="$q.screen.gt.sm">
+          <q-toolbar class="bg-grey-8 text-white font-12 shadow-1 rounded-borders">
+            <q-breadcrumbs active-color="white">
+              <q-breadcrumbs-el label="Ana Sayfa" icon="home" to="/" />
+              <q-breadcrumbs-el label="Organizasyon Tanımları" icon="corporate_fare" />
+              <q-breadcrumbs-el label="Kullanıcı Tanımları" icon="person_add" />
+            </q-breadcrumbs>
+          </q-toolbar>
+      </div>
+
       <router-view />
     </q-page-container>
 
