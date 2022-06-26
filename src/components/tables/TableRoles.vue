@@ -1,5 +1,5 @@
 <template>
-  <div class="row q-col-gutter-sm q-pl-md q-pr-md q-pa-md">
+  <div class="row q-col-gutter-sm q-pa-sm">
     <div class="col-12">
       <q-card class="no-shadow">
         <q-table
@@ -183,7 +183,6 @@ export default {
     })
 
     onMounted(async () => {
-      debugger
       try {
         const bodyData = {
 
@@ -236,13 +235,11 @@ export default {
     }
 
     const editRole = (row) => {
-      debugger
       selectedRole.value = row
       router.push("/organization/roles/view")
     }
 
     const updateStatus = (row) => {
-      debugger
       const data = roleList.value.find((item) => item.id === row.id)
       if(data.status == 0) {
         data.status = 1

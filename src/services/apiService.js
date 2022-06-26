@@ -42,7 +42,6 @@ const apiService = () => {
     }
 
     try {
-      debugger
       const url = `/api/v1/${method}`
       const response = await api.request({url: url,method: "POST", data: bodyData})
       const { data, status } = response

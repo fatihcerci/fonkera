@@ -40,6 +40,17 @@
           <q-item-section>Ana Sayfa</q-item-section>
         </q-item>
 
+        <q-item
+          clickable
+          @click="router.push('/emailsettings')"
+        >
+          <q-item-section avatar>
+            <q-icon name="mail" />
+          </q-item-section>
+
+          <q-item-section>E-posta Ayarları</q-item-section>
+        </q-item>
+
         <q-expansion-item :content-inset-level="0.5" expand-separator icon="corporate_fare" label="Organizasyon Tanımları">
 
           <q-item
@@ -122,7 +133,6 @@ export default {
   },
   computed: {
     crumbs: function() {
-      debugger
       let pathArray = this.$route.path.split("/")
       //pathArray.shift()
       let breadcrumbs = pathArray.reduce((breadcrumbArray, path, idx) => {

@@ -223,7 +223,6 @@ export default {
     })
 
     onMounted(async () => {
-      debugger
       try {
         const bodyData = {
 
@@ -276,7 +275,6 @@ export default {
     }
 
     const editUser = async (row) => {
-      debugger
       await getGroups()
       await getRoles()
       selectedUser.value = row
@@ -285,7 +283,6 @@ export default {
 
     const getGroups = async () => {
       try {
-        debugger
         await fetch("groups/get_all", {}, true)
         let optList = dataList.value.data.map((item) => ({...item}))
         if(groupOptions.length != optList.length) {
@@ -299,7 +296,6 @@ export default {
 
     const getRoles = async () => {
       try {
-        debugger
         await fetch("roles/get_all", {}, true)
         let optList = dataList.value.data.map((item) => ({...item}))
         if(roleOptions.length != optList.length) {
@@ -312,7 +308,6 @@ export default {
     }
 
     const updateStatus = (row) => {
-      debugger
       const data = userList.value.find((item) => item.id === row.id)
       if(data.status == 0) {
         data.status = 1

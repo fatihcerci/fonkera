@@ -1,5 +1,6 @@
 import Main from "layouts/MainLayout.vue"
 import Home from "pages/Home.vue"
+import EmailSettings from "pages/EmailSettings.vue"
 import Organization from "pages/organization/Organization.vue"
 import Groups from "pages/organization/Groups.vue"
 import GroupView from "pages/organization/GroupView.vue"
@@ -20,7 +21,12 @@ const routes = [
       {
         path: "",
         component: Home,
-        meta: { requiresAuth: false },
+        meta: { requiresAuth: false }
+      },
+      {
+        path: "/emailsettings",
+        component: EmailSettings,
+        meta: { requiresAuth: false, breadCrumb: 'E-posta Ayarları', icon : 'mail' }
       },
       {
         path: "/organization",
