@@ -11,12 +11,13 @@
 // It's highly recommended to change the default colors
 // to match your app's branding.
 // Tip: Use the "Theme Builder" on Quasar's documentation website.
-@import url('https://fonts.googleapis.com/css2?family=Baloo+Chettan+2&family=Montserrat&display=swap');
-//@import url('https://fonts.googleapis.com/css2?family=Baloo+Chettan+2&display=swap');
-//@import url('https://fonts.googleapis.com/css2?family=Montserrat&family=Nunito&display=swap');
-//@import url('https://fonts.googleapis.com/css2?family=Hind&display=swap');
+//@import url('https://fonts.googleapis.com/css2?family=Baloo+Chettan+2&family=Montserrat&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap');
 // Set the default font-family
-$typography-font-family : 'Baloo Chettan 2', cursive !default;
+//$typography-font-family : 'Baloo Chettan 2', cursive !default;
+
+$typography-font-family : 'Poppins', sans-serif;
+$body-font-size : 13px;
 
 
 $primary   : #4e4e4e;
