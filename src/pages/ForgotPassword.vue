@@ -21,16 +21,15 @@
 
           </q-toolbar>
 
-        <div class="row items-center justify-center">
-          <img src="~/assets/login5.svg"/>
+        <div class="row items-center justify-center q-pt-xl">
+          <img src="~/assets/forgot_password2.svg"/>
         </div>
 
       </div>
 
-      <div :class="$q.screen.gt.md ? 'col-4 justify-center items-center' : 'col-grow'" style="border-left:1px solid #ebebeb;" class="row  q-pa-lg">
+      <div :class="$q.screen.gt.md ? 'col-4 justify-center items-center' : 'col-grow'" style="border-left:1px solid #ebebeb;" class="row q-pa-lg">
 
-          <q-card flat square no-border class="full-width">
-
+        <q-card flat square no-border class="full-width">
           <q-card-section>
 
             <q-item v-if="!$q.screen.gt.md" class="q-pb-xl">
@@ -43,9 +42,8 @@
             </q-item>
 
 
-            <p class="q-pl-sm card-text-color font-24" style="font-weight:800 !important;">Fonkera'ya Hoşgeldiniz</p>
-            <p class="q-pl-sm font-13 text-grey-6">Aşağıdaki bilgileri doldurarak hesabınıza giriş yapabilirsiniz</p>
-
+            <p class="q-pl-sm card-text-color font-24" style="font-weight:800 !important;">Şifremi Unuttum</p>
+            <p class="q-pl-sm font-13 text-grey-6">Sisteme kayıtlı e-posta adresinizi girerek şifrenizi sıfırlayabilirsiniz</p>
 
 
             <q-form class="q-px-sm">
@@ -63,33 +61,6 @@
                   <q-icon name="person" />
                 </template>
               </q-input>
-
-              <div class="row text-right justify-end" >
-                <a href="javascript:void(0)" class="q-pt-sm text-blue-5 font-13"  @click="goForgotPassword()"> Şifremi Unuttum ?</a>
-              </div>
-
-
-              <q-input
-                v-on:keyup.enter="doLogin"
-                ref="password"
-                outlined
-                clearable
-                v-model="creds.password"
-                :type="passwordFieldType"
-                label="Şifre"
-              >
-                <template v-slot:prepend>
-                  <q-icon name="lock" />
-                </template>
-                <template v-slot:append>
-                  <q-icon
-                    :name="visibilityIcon"
-                    @click="switchVisibility"
-                    class="cursor-pointer"
-                  />
-                </template>
-              </q-input>
-
 
               <div class="row q-pb-md q-col-gutter-md q-pt-md" >
                 <VueRecaptcha
@@ -109,9 +80,13 @@
                 color="primary"
                 @click="doLogin"
                 class="full-width text-white text-capitalize"
-                label="Giriş Yap"
+                label="Şifremi Sıfırla"
               />
             </q-card-actions>
+
+            <div class="row text-right justify-center" >
+              <a href="javascript:void(0)" class="q-pt-sm text-blue-5 font-13"  @click="goLoginPage()"> Giriş Sayfasına Dön</a>
+            </div>
 
           </q-card-section>
 
@@ -192,8 +167,8 @@ export default defineComponent({
       //router.replace("/")
     }
 
-    const goForgotPassword = () => {
-      router.push("/forgotpassword")
+    const goLoginPage = () => {
+      router.push("/login")
     }
 
     const refresh = () => {
@@ -240,7 +215,7 @@ export default defineComponent({
       visibilityIcon,
       creds,
       goHome,
-      goForgotPassword,
+      goLoginPage,
       doLogin,
       switchVisibility,
       url,

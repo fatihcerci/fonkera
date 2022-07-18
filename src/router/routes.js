@@ -2,6 +2,7 @@ import Base from "layouts/BaseLayout.vue"
 import Main from "layouts/MainLayout.vue"
 import Home from "pages/Home.vue"
 import Login from "pages/Login.vue"
+import ForgotPassword from "pages/ForgotPassword.vue"
 import EmailSettings from "pages/EmailSettings.vue"
 import Organization from "pages/organization/Organization.vue"
 import Groups from "pages/organization/Groups.vue"
@@ -20,6 +21,18 @@ const routes = [
         name: "Login",
         path: "/login",
         component: Login,
+      },
+    ],
+    meta: { requiresAuth: false },
+  },
+  {
+    path: "/forgotpassword",
+    component: Base,
+    children: [
+      {
+        name: "ForgotPassword",
+        path: "/forgotpassword",
+        component: ForgotPassword,
       },
     ],
     meta: { requiresAuth: false },
