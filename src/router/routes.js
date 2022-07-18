@@ -21,23 +21,23 @@ const routes = [
       {
         path: "",
         component: Home,
-        meta: { requiresAuth: false }
+        meta: { requiresAuth: false, menu : 'home' }
       },
       {
         path: "/emailsettings",
         component: EmailSettings,
-        meta: { requiresAuth: false, breadCrumb: 'E-posta Ayarları', icon : 'mail' }
+        meta: { requiresAuth: false, breadCrumb: 'E-posta Ayarları', icon : 'mail', menu : 'emailsettings' }
       },
       {
         path: "/organization",
         component: Organization,
-        meta: { requiresAuth: false, breadCrumb: 'Organizasyon Tanımları', icon : 'corporate_fare' },
+        meta: { requiresAuth: false, breadCrumb: 'Organizasyon Tanımları', icon : 'corporate_fare', menu : 'organization' },
         children : [
           {
             path: "groups",
             component: Groups,
             props : true,
-            meta: { requiresAuth: false, breadCrumb: 'Grup Tanımları', icon : 'groups' },
+            meta: { requiresAuth: false, breadCrumb: 'Grup Tanımları', icon : 'groups', menu : 'groups' },
             children : [
 
             ]
@@ -46,31 +46,31 @@ const routes = [
             path: "groups/view",
             props:true,
             component: GroupView,
-            meta: { requiresAuth: false, breadCrumb: 'Grup Ekle-Düzenle', icon : 'edit', parent : { path: "/organization/groups", breadCrumb: 'Grup Tanımları', icon : 'groups' }},
+            meta: { requiresAuth: false, breadCrumb: 'Grup Ekle-Düzenle', icon : 'edit', menu : 'groups', parent : { path: "/organization/groups", breadCrumb: 'Grup Tanımları', icon : 'groups' }},
           },
 
 
           {
             path: "roles",
             component: Roles,
-            meta: { requiresAuth: false, breadCrumb: 'Rol Tanımları', icon : 'manage_accounts'},
+            meta: { requiresAuth: false, breadCrumb: 'Rol Tanımları', icon : 'manage_accounts', menu : 'roles'},
           },
           {
             path: "roles/view",
             props:true,
             component: RoleView,
-            meta: { requiresAuth: false, breadCrumb: 'Rol Ekle-Düzenle', icon : 'edit', parent : { path: "/organization/roles", breadCrumb: 'Rol Tanımları', icon : 'manage_accounts' }},
+            meta: { requiresAuth: false, breadCrumb: 'Rol Ekle-Düzenle', icon : 'edit', menu : 'roles', parent : { path: "/organization/roles", breadCrumb: 'Rol Tanımları', icon : 'manage_accounts' }},
           },
           {
             path: "users",
             component: Users,
-            meta: { requiresAuth: false, breadCrumb: 'Kullanıcı Tanımları', icon : 'person_add'},
+            meta: { requiresAuth: false, breadCrumb: 'Kullanıcı Tanımları', icon : 'person_add', menu : 'users'},
           },
           {
             path: "users/view",
             props:true,
             component: UserView,
-            meta: { requiresAuth: false, breadCrumb: 'Kullanıcı Ekle-Düzenle', icon : 'edit', parent : { path: "/organization/users", breadCrumb: 'Kullanıcı Tanımları', icon : 'person_add' }},
+            meta: { requiresAuth: false, breadCrumb: 'Kullanıcı Ekle-Düzenle', icon : 'edit', menu : 'users', parent : { path: "/organization/users", breadCrumb: 'Kullanıcı Tanımları', icon : 'person_add' }},
           },
         ]
       },

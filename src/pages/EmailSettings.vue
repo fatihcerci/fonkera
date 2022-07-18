@@ -1,8 +1,8 @@
 <template>
 
-  <div class="row q-pa-sm">
+  <div class="row q-pa-sm q-pl-md">
     <div class="col-12">
-      <q-card flat class="bg-grey-2">
+      <q-card flat class="">
         <q-card-section>
           <div class="text-h6">E-Posta Ayarları</div>
         </q-card-section>

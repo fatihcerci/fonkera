@@ -88,9 +88,9 @@ module.exports = configure(function (ctx) {
     framework: {
       config: {
         loadingBar: {
-          size: '3px'
+          size: '3px',
+          color: 'deep-purple-9'
         }
-
       },
       lang:'tr',
       // iconSet: 'material-icons', // Quasar icon set

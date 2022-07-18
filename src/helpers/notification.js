@@ -8,6 +8,7 @@ const notification = () => {
       textColor: "dark",
       icon: "warning",
       position: !pos ? "bottom" : pos,
+      classes: 'glossy',
     })
   }
 
@@ -17,16 +18,18 @@ const notification = () => {
       textColor: "dark",
       color: "info",
       position: !pos ? "bottom" : pos,
+      classes: 'glossy',
     })
   }
 
   const error = (message, pos) => {
     Notify.create({
-      color: "negative",
+      color: "red-5",
       position: !pos ? "top" : pos,
       textColor: "dark",
       message: message,
       icon: "report_problem",
+      classes: 'glossy',
     })
   }
 
@@ -34,8 +37,10 @@ const notification = () => {
     Notify.create({
       message: message,
       textColor: "white",
-      color: "positive",
+      color: "deep-purple-5",
       position: !pos ? "bottom" : pos,
+      classes: 'glossy',
+      icon : 'check'
     })
   }
   return {

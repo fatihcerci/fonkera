@@ -1,9 +1,9 @@
 <template>
-  <div class="row q-col-gutter-sm q-pl-sm q-pr-sm q-pa-sm">
+  <div class="row q-col-gutter-sm q-pl-md q-pr-sm q-pa-sm">
     <div class="col-12">
       <q-card class="no-shadow">
         <q-table
-          card-class="bg-grey-1"
+          card-class=""
           :hide-header="mode"
           :grid="mode"
           :filter="filter"
