@@ -1,5 +1,7 @@
+import Base from "layouts/BaseLayout.vue"
 import Main from "layouts/MainLayout.vue"
 import Home from "pages/Home.vue"
+import Login from "pages/Login.vue"
 import EmailSettings from "pages/EmailSettings.vue"
 import Organization from "pages/organization/Organization.vue"
 import Groups from "pages/organization/Groups.vue"
@@ -10,6 +12,18 @@ import Users from "pages/organization/Users.vue"
 import UserView from "pages/organization/UserView.vue"
 
 const routes = [
+  {
+    path: "/login",
+    component: Base,
+    children: [
+      {
+        name: "Login",
+        path: "/login",
+        component: Login,
+      },
+    ],
+    meta: { requiresAuth: false },
+  },
   {
     path: "/",
     component: Main,

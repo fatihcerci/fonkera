@@ -1,7 +1,7 @@
 export class Api {
   static Base = class {
-    //static get URL() { return "http://localhost/fonkerarest" }
-    static get URL() { return "http://ironpunch.org/fonkerarest" }
+    static get URL() { return "http://localhost/fonkerarest" }
+    //static get URL() { return "http://ironpunch.org/fonkerarest" }
   }
 
   static Tender = class {
