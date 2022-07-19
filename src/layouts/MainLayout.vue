@@ -105,13 +105,14 @@
       -->
 
       <div class="q-pl-sm q-pr-sm">
-        <q-toolbar class="bg-white text-grey-8 font-13 rounded-borders shadow-25">
+        <q-toolbar class="bg-white text-grey-8 font-13 rounded-borders shadow-25" v-if="!searchBoxOpen">
           <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" v-if="!$q.screen.gt.sm" />
           <q-breadcrumbs active-color="" v-if="$q.screen.gt.sm">
             <q-breadcrumbs-el v-for="item in crumbs" :key="item.text" :label="item.text" :icon="item.icon" :to="item.to" />
           </q-breadcrumbs>
 
           <q-space />
+
 
           <q-select class="language" borderless v-model="language" :options="options" :options-html="true">
             <template v-slot:selected>
@@ -147,6 +148,8 @@
               </q-chip>
             </template>
           </q-select>
+
+          <q-btn flat round size="md" icon="search" @click="toggleSearchBox" />
 
           <q-btn flat round size="md" icon="notifications">
             <q-badge color="red" class="" rounded floating>5</q-badge>
@@ -209,6 +212,67 @@
           </q-item>
         </q-toolbar>
 
+        <q-toolbar class="che bg-white text-grey-8 font-13 rounded-borders shadow-25 q-pa-xs" v-if="searchBoxOpen">
+          <q-select
+            flat
+            borderless
+            v-model="search"
+            use-input
+            hide-selected
+            fill-input
+            input-debounce="0"
+            :options="searchResult"
+            @filter="filterFn"
+            placeholder="Ara"
+            style="background: white !important"
+            class="full-width q-pl-sm"
+            autofocus
+            :menu-offset="[10, 5]"
+          >
+            <template v-slot:prepend >
+              <q-icon name="search" />
+            </template>
+
+            <template v-slot:append > 
+              <q-btn flat round size="sm" icon="close" @click="toggleSearchBox" />
+            </template>
+
+            <template v-slot:no-option>
+              <q-item>
+                <q-item-section class="text-grey">
+                  Sonuç bulunamadı
+                </q-item-section>
+              </q-item>
+            </template>
+
+          </q-select>
+
+          <!--
+            <q-input
+              flat
+              color="white"
+              v-model="search"
+              type="input"
+              placeholder="Ara"
+              class="full-width"
+              style="background: white"
+              autofocus
+              v-on:blur="toggleSearchBox"
+            >
+              <template v-slot:prepend >
+                <q-icon name="search" />
+              </template>
+
+              <template v-slot:append > 
+                <q-btn flat round size="sm" icon="close" @click="toggleSearchBox" />
+              </template>
+
+            </q-input>
+          -->
+          
+
+        </q-toolbar>
+
       </div>
 
       <router-view />
@@ -220,11 +284,15 @@
 </template>
 
 <script>
-import { onMounted, ref, computed} from "vue"
+import { onMounted, ref, computed, toRefs, reactive} from "vue"
 import { useQuasar } from 'quasar'
 import { useRouter } from "vue-router"
 
 import menuController from "../controllers/menuController"
+
+const searchResults = [
+  'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
+]
 
 export default {
   name: "MainLayout",
@@ -293,6 +361,13 @@ export default {
     const expanded = router.currentRoute.value.path.includes('organization') ? ref(true) : ref(false)
 
     const leftDrawerOpen = ref(false)
+    const searchBoxOpen = ref(false)
+    
+    const state = reactive({
+      search : ''
+    })
+
+    const searchResult = ref(searchResults)
 
     const { menu, getMenu, setMenu } = menuController()
 
@@ -325,20 +400,42 @@ export default {
       return language.value.iconSrc
     })
 
+
     onMounted(async () => {
+
     })
+
     return {
+      ...toRefs(state),
       router,
       expanded,
       getMenu,
       setMenu,
+      language,
+      options,
+      getIcon,
       leftDrawerOpen,
       toggleLeftDrawer () {
         leftDrawerOpen.value = !leftDrawerOpen.value
       },
-      language,
-      options,
-      getIcon
+      searchBoxOpen,
+      toggleSearchBox () {
+        state.search = ''
+        searchBoxOpen.value = !searchBoxOpen.value
+      },
+      searchResult,
+      filterFn (val, update, abort) {
+        if (val.length < 2) {
+          abort()
+          return
+        }
+
+        update(() => {
+          const needle = val.toLowerCase()
+          searchResult.value = searchResults.filter(v => v.toLowerCase().indexOf(needle) > -1)
+        })
+      }
+
     }
   },
 }
@@ -378,6 +475,19 @@ export default {
 
   .language .q-select__dropdown-icon {
     display: none !important;
+  }
+
+  .q-field--standard .q-field__control:before {
+    border-bottom:none;
+  }
+
+  .q-toolbar .q-select__dropdown-icon {
+    display: none;
+  }
+
+  .q-menu.q-position-engine {
+    background: white !important;
+    color: #5e5873 !important;
   }
 
 

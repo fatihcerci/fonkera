@@ -58,6 +58,7 @@
                 type="input"
                 label="E-posta Adresi"
                 input-class="text-uppercase"
+                v-on:update:model-value="onKeyPress"
               >
                 <template v-slot:prepend>
                   <q-icon name="person" />
@@ -181,6 +182,10 @@ export default defineComponent({
       router.push("/")
     }
 
+    const onKeyPress = () => {
+      alert(creds.value.userCode)
+    }
+
     const switchVisibility = () => {
       visibility.value = !visibility.value
       passwordFieldType.value = visibility.value ? "text" : "password"
@@ -249,6 +254,7 @@ export default defineComponent({
       handleSuccess,
       handleError,
       siteKey,
+      onKeyPress,
     }
   },
 })
