@@ -1,5 +1,5 @@
 <template>
-  <q-page q-layout view="hHh lpR fFf" class="q-pt-md q-pl-sm q-pr-sm">
+  <q-page q-layout view="hHh lpR fFf" class="q-pt-md q-pl-md q-pr-md">
 
     <q-card flat class="shadow-25 q-pb-sm">
       <q-card-section class="row">
@@ -89,7 +89,7 @@
 
     <div class="q-pt-md" v-bind:class="{ 'row' : $q.screen.gt.sm}" >
 
-      <div class="col-md-4" v-bind:class="{ 'q-pr-sm' : $q.screen.gt.sm}">
+      <div class="col-md-4" v-bind:class="{ 'q-pr-md' : $q.screen.gt.sm}">
         <q-card class="shadow-25" style="min-height: 486px">
           <!-- <img height="158" class="image-bg" src="https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/demo-1/img/email.de935b8f.svg"> -->
           <img height="158" class="image-bg" src="~/assets/meeting.svg">
@@ -169,7 +169,7 @@
 
       </div>
 
-      <div class="col-md-4" v-bind:class="{ 'q-pr-sm' : $q.screen.gt.sm, 'q-pt-md' : !$q.screen.gt.sm}">
+      <div class="col-md-4" v-bind:class="{ 'q-pr-md' : $q.screen.gt.sm, 'q-pt-md' : !$q.screen.gt.sm}">
         <q-card class="shadow-25" style="min-height: 486px">
 
           <q-card-section>
@@ -231,7 +231,7 @@
       </div>
 
 
-      <div class="col-md-4" v-bind:class="{ 'q-pr-sm' : $q.screen.gt.sm, 'q-pt-md' : !$q.screen.gt.sm}">
+      <div class="col-md-4" v-bind:class="{ 'q-pt-md' : !$q.screen.gt.sm}">
         <q-card class="shadow-25" style="min-height: 486px">
 
           <q-card-section>
@@ -383,7 +383,7 @@
 
     <div class="q-pt-md q-pb-md" v-bind:class="{ 'row' : $q.screen.gt.sm}" >
 
-      <div class="col-md-4" v-bind:class="{ 'q-pr-sm' : $q.screen.gt.sm}">
+      <div class="col-md-4" v-bind:class="{ 'q-pr-md' : $q.screen.gt.sm}">
         <q-card class="shadow-25" style="min-height: 420px">
 
           <q-card-section>

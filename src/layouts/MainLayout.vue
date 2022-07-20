@@ -91,7 +91,7 @@
 
 
 
-    <q-page-container class="q-pt-sm bg-grey-2">
+    <q-page-container class="q-pt-md bg-grey-2">
       <!--
       <div class="q-pa-sm" v-if="$q.screen.gt.sm">
           <q-toolbar class="bg-grey-8 text-white font-12 shadow-1 rounded-borders">
@@ -104,7 +104,7 @@
       </div>
       -->
 
-      <div class="q-pl-sm q-pr-sm">
+      <div class="q-pl-md q-pr-md">
         <q-toolbar class="bg-white text-grey-8 font-13 rounded-borders shadow-25" v-if="!searchBoxOpen">
           <q-btn dense flat round icon="menu" @click="toggleLeftDrawer" v-if="!$q.screen.gt.sm" />
           <q-breadcrumbs active-color="" v-if="$q.screen.gt.sm">
@@ -212,7 +212,7 @@
           </q-item>
         </q-toolbar>
 
-        <q-toolbar class="che bg-white text-grey-8 font-13 rounded-borders shadow-25 q-pa-xs" v-if="searchBoxOpen">
+        <q-toolbar class="bg-white text-grey-8 font-13 rounded-borders shadow-25 q-pa-xs" v-if="searchBoxOpen">
           <q-select
             flat
             borderless
@@ -228,6 +228,7 @@
             class="full-width q-pl-sm"
             autofocus
             :menu-offset="[10, 5]"
+            v-on:blur="toggleSearchBox"
           >
             <template v-slot:prepend >
               <q-icon name="search" />
@@ -241,6 +242,21 @@
               <q-item>
                 <q-item-section class="text-grey">
                   Sonuç bulunamadı
+                </q-item-section>
+              </q-item>
+            </template>
+
+            <template v-slot:option="scope">
+              <q-item v-bind="scope.itemProps">
+                <q-item-section avatar>
+                  <q-icon :name="scope.opt.icon" style="display:none;" />
+                  <q-avatar size="48px">
+                    <img :src="scope.opt.avatar" />
+                  </q-avatar>
+                </q-item-section>
+                <q-item-section>
+                  <q-item-label>{{ scope.opt.label }}</q-item-label>
+                  <q-item-label caption>{{ scope.opt.phone }}</q-item-label>
                 </q-item-section>
               </q-item>
             </template>
@@ -291,7 +307,18 @@ import { useRouter } from "vue-router"
 import menuController from "../controllers/menuController"
 
 const searchResults = [
-  'Google', 'Facebook', 'Twitter', 'Apple', 'Oracle'
+  {
+    label: 'Fatih Çerçi',
+    value: '1',
+    phone: '0(507) 216 58 24',
+    avatar: 'https://cdn.quasar.dev/img/avatar4.jpg'
+  },
+  {
+    label: 'Meryem Çerçi',
+    value: '2',
+    phone: '0(507) 916 91 76',
+    avatar: 'https://cdn.quasar.dev/img/avatar2.jpg'
+  },
 ]
 
 export default {
@@ -432,7 +459,7 @@ export default {
 
         update(() => {
           const needle = val.toLowerCase()
-          searchResult.value = searchResults.filter(v => v.toLowerCase().indexOf(needle) > -1)
+          searchResult.value = searchResults.filter(v => v.label.toLowerCase().indexOf(needle) > -1)
         })
       }
 
@@ -486,8 +513,10 @@ export default {
   }
 
   .q-menu.q-position-engine {
-    background: white !important;
+    background: #f5f5f5  !important;
     color: #5e5873 !important;
+    font-weight: 600 !important;
+    box-shadow: none !important;
   }
 
 
