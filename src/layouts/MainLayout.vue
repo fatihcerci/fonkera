@@ -247,7 +247,7 @@
             </template>
 
             <template v-slot:option="scope">
-              <q-item v-bind="scope.itemProps">
+              <q-item v-bind="scope.itemProps" @click="test(scope.opt.value)">
                 <q-item-section avatar>
                   <q-icon :name="scope.opt.icon" style="display:none;" />
                   <q-avatar size="48px">
@@ -427,6 +427,10 @@ export default {
       return language.value.iconSrc
     })
 
+    const test = (val) => {
+      alert("OID:" + val)
+    }
+
 
     onMounted(async () => {
 
@@ -461,7 +465,8 @@ export default {
           const needle = val.toLowerCase()
           searchResult.value = searchResults.filter(v => v.label.toLowerCase().indexOf(needle) > -1)
         })
-      }
+      },
+      test
 
     }
   },
