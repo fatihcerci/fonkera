@@ -247,6 +247,7 @@
             </template>
 
             <template v-slot:option="scope">
+              
               <q-item v-bind="scope.itemProps" @click="test(scope.opt.value)">
                 <q-item-section avatar>
                   <q-icon :name="scope.opt.icon" style="display:none;" />
@@ -258,8 +259,42 @@
                   <q-item-label>{{ scope.opt.label }}</q-item-label>
                   <q-item-label caption>{{ scope.opt.phone }}</q-item-label>
                 </q-item-section>
+
+                <!--
+                <q-tooltip transition-show="scale" transition-hide="scale" self="bottom center" :offset="[-500,-50]"> 
+                  <q-card>
+                    <q-card-section class="row justify-center items-center">
+                      <q-avatar size="60px" class="justify-center items-center">
+                        <img :src="scope.opt.avatar" />
+                      </q-avatar>
+
+                      <q-item class="col-md-12 cursor-pointer q-pa-none">
+                        <q-item-section>
+                          <q-item-label class="font-16 text-grey-8 text-bold text-center">{{ scope.opt.label }}</q-item-label>
+                        </q-item-section>
+                      </q-item>
+
+                      <q-item class="col-md-12 cursor-pointer q-pa-none">
+                        <q-item-section>
+                          <q-item-label class="font-13 text-grey-6 text-bold text-center">{{ scope.opt.phone }}</q-item-label>
+                        </q-item-section>
+                      </q-item>
+
+                      <q-item class="col-md-12 cursor-pointer q-pa-none">
+                        <q-item-section>
+                          <q-item-label class="font-13 text-grey-6 text-bold text-center">{{ scope.opt.email }}</q-item-label>
+                        </q-item-section>
+                      </q-item>
+
+                    </q-card-section>
+
+                  </q-card>
+                </q-tooltip>
+                -->
               </q-item>
             </template>
+
+            
 
           </q-select>
 
@@ -311,12 +346,14 @@ const searchResults = [
     label: 'Fatih Çerçi',
     value: '1',
     phone: '0(507) 216 58 24',
+    email: 'fatihcerci001@gmail.com',
     avatar: 'https://cdn.quasar.dev/img/avatar4.jpg'
   },
   {
     label: 'Meryem Çerçi',
     value: '2',
     phone: '0(507) 916 91 76',
+    email: 'melike.sbp@gmail.com',
     avatar: 'https://cdn.quasar.dev/img/avatar2.jpg'
   },
 ]

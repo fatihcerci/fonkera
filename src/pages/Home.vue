@@ -91,8 +91,8 @@
 
       <div class="col-md-4" v-bind:class="{ 'q-pr-md' : $q.screen.gt.sm}">
         <q-card class="shadow-25" style="min-height: 486px">
-          <!-- <img height="158" class="image-bg" src="https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/demo-1/img/email.de935b8f.svg"> -->
-          <img height="158" class="image-bg" src="~/assets/meeting.svg">
+          <img height="158" class="image-bg" src="https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/demo-1/img/email.de935b8f.svg"> 
+          <!-- <img height="158" class="image-bg" src="~/assets/meeting.svg"> -->
 
           <q-card-section class="row">
             <q-item class="col-md-1 cursor-pointer q-pa-none" style="border-right: 1px solid #d8d6de; width:60px;">
@@ -584,7 +584,7 @@ export default {
     background: #f3f2f7 !important;
   }
   .image-bg {
-    background: rgba(115,103,240,.12)!important;
+    background: rgba(115,103,240,.25)!important;
   }
 
   .blog .q-hoverable:hover {
