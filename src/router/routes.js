@@ -11,6 +11,7 @@ import Roles from "pages/organization/Roles.vue"
 import RoleView from "pages/organization/RoleView.vue"
 import Users from "pages/organization/Users.vue"
 import UserView from "pages/organization/UserView.vue"
+import UserUpdatePassword from "pages/organization/UserUpdatePassword.vue"
 
 const routes = [
   {
@@ -98,6 +99,12 @@ const routes = [
             props:true,
             component: UserView,
             meta: { requiresAuth: false, breadCrumb: 'Kullanıcı Ekle-Düzenle', icon : 'edit', menu : 'users', parent : { path: "/organization/users", breadCrumb: 'Kullanıcı Tanımları', icon : 'person_add' }},
+          },
+          {
+            path: "users/updatePassword",
+            props:true,
+            component: UserUpdatePassword,
+            meta: { requiresAuth: false, breadCrumb: 'Şifre Güncelle', icon : 'edit', menu : 'users', parent : { path: "/organization/users", breadCrumb: 'Kullanıcı Tanımları', icon : 'person_add' }},
           },
         ]
       },

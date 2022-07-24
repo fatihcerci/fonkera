@@ -24,7 +24,7 @@
 
           <template v-slot:top-right="props">
 
-            <q-btn color="primary" unelevated label="Yeni Ekle" @click="editUser(null)" class="q-mr-sm" />
+            <q-btn color="primary" unelevated label="Yeni Ekle" glossy @click="editUser(null)" class="q-mr-sm" />
 
             <q-input
               standout
@@ -79,9 +79,21 @@
                 size="sm"
                 color="primary"
                 label="Güncelle"
+                glossy
                 @click="editUser(props.row)"
               >
               </q-btn>
+
+              <q-btn
+                size="sm"
+                color="primary"
+                label="Şifre Güncelle"
+                glossy
+                class="q-ml-sm"
+                @click="updatePassword(props.row)"
+              >
+              </q-btn>
+
             </q-td>
           </template>
 
@@ -192,8 +204,7 @@ export default {
 
   },
   setup(props, { emit }) {
-    const { dataList, claimDataSource, displayError, displayMessages, fetch } =
-      apiService()
+    const { dataList, claimDataSource, displayError, displayMessages, fetch } = apiService()
 
     const { selectedUser, userList, groupOptions, roleOptions } = userController()
 
@@ -281,6 +292,12 @@ export default {
       router.push("/organization/users/view")
     }
 
+    const updatePassword = async (row) => {
+      selectedUser.value = row
+      router.push("/organization/users/updatePassword")
+    }
+
+
     const getGroups = async () => {
       try {
         await fetch("groups/get_all", {}, true)
@@ -339,6 +356,7 @@ export default {
       exportTable,
       fetch,
       editUser,
+      updatePassword,
       updateStatus
     }
   },

@@ -42,20 +42,19 @@
             </q-item>
 
 
-            <p class="q-pl-sm card-text-color font-24" style="font-weight:800 !important;">Şifremi Unuttum</p>
-            <p class="q-pl-sm font-13 text-grey-6">Sisteme kayıtlı e-posta adresinizi girerek şifrenizi sıfırlayabilirsiniz</p>
+            <p class="q-pl-sm card-text-color font-24" style="font-weight:800 !important;">{{ $t('forgotPassword.title') }}</p>
+            <p class="q-pl-sm font-13 text-grey-6">{{ $t('forgotPassword.description') }}</p>
 
+            <language />
 
             <q-form class="q-px-sm">
               <q-input
-                v-on:keyup.enter="doLogin"
-                ref="userCode"
+                v-on:keyup.enter="resetPassword"
                 outlined
                 clearable
-                v-model="creds.userCode"
+                v-model="email"
                 type="input"
-                label="E-posta Adresi"
-                input-class="text-uppercase"
+                :label="$t('forgotPassword.email')"
               >
                 <template v-slot:prepend>
                   <q-icon name="person" />
@@ -78,14 +77,14 @@
                 unelevated
                 size="lg"
                 color="primary"
-                @click="doLogin"
+                @click="resetPassword"
                 class="full-width text-white text-capitalize"
-                label="Şifremi Sıfırla"
+                :label="$t('forgotPassword.resetPassword')"
               />
             </q-card-actions>
 
             <div class="row text-right justify-center" >
-              <a href="javascript:void(0)" class="q-pt-sm text-blue-5 font-13"  @click="goLoginPage()"> Giriş Sayfasına Dön</a>
+              <a href="javascript:void(0)" class="q-pt-sm text-blue-5 font-13"  @click="goLoginPage()"> {{ $t('forgotPassword.goBackLogin') }}</a>
             </div>
 
           </q-card-section>
@@ -98,62 +97,59 @@
   </q-page>
 </template>
 <script>
-import { defineComponent, ref, onMounted, computed} from "vue"
+import { defineComponent, ref, onMounted, computed, toRefs, reactive} from "vue"
 //import { useQuasar } from "quasar"
 import { useRouter } from "vue-router"
 //import usersService from "../services/usersService"
 import notify from "../helpers/notification"
 import { Api } from "../helpers/api"
+import apiService from "../services/apiService"
 import { VueRecaptcha } from 'vue-recaptcha'
+import Language from "src/components/Language.vue"
+import { useI18n } from 'vue-i18n'
 
 export default defineComponent({
   name: "UserLogin",
   components: {
-    VueRecaptcha
+    VueRecaptcha,
+    Language
   },
   setup() {
     const router = useRouter()
     //const $q = useQuasar()
     //const { login, logout, hasUser, sessionInfo, displayError, displayMessages } = usersService()
+    const { fetch } = apiService()
+
     const passwordFieldType = ref("password")
     const visibility = ref(false)
     const visibilityIcon = ref("visibility")
-    const creds = ref({
-      userCode: "",
-      password: "",
-      captcha: ""
+
+    const { t } = useI18n({ useScope: 'global' })
+
+    const state = reactive({
+      email: "",
+      captcha: 0
     })
 
-    const url = ref(Api.Base.ServiceURL + '/../simpleCaptcha.png?v='+Math.random())
-
-    const doLogin = async () => {
-      /*try {
-        const { userCode, password, captcha } = creds.value
-        await login(userCode, password, captcha)
-        if (sessionInfo.value) {
-          localStorage.setItem(
-            "sessionInfo",
-            sessionInfo.value.extra.sessionInfo
-          )
-          localStorage.setItem("expertCode", userCode)
-
-          if(sessionStorage.getItem("redirectPath")) {
-            router.replace(sessionStorage.getItem("redirectPath"))
-          } else {
-            router.replace("/")
-          }
-
-        } else {
-          await logout()
-          router.replace("/login")
+    const resetPassword = async () => {
+      try {
+        if(!state.captcha) {
+          throw new Error(t('captcha'))
         }
-        if (displayError.value) throw new Error(displayMessages.value[0].text)
+
+        if(!state.email) {
+          throw new Error("Lütfen e-mail adresini girin")
+        }
+
+        const bodyData = {
+          email: state.email
+        }
+
+        await fetch("userop/reset_password", bodyData, true)
       } catch (e) {
-        refresh()
         notify().error(e.message)
-        router.replace("/login")
-      }*/
-      router.push("/")
+        router.push("/forgotpassword")
+      }
     }
 
     const switchVisibility = () => {
@@ -162,18 +158,8 @@ export default defineComponent({
       visibilityIcon.value = visibility.value ? "visibility_off" : "visibility"
     }
 
-    const goHome = () => {
-      router.push("/")
-      //router.replace("/")
-    }
-
     const goLoginPage = () => {
       router.push("/login")
-    }
-
-    const refresh = () => {
-        url.value = Api.Base.ServiceURL + '/../simpleCaptcha.png?v='+Math.random()
-        creds.value.captcha = ""
     }
 
     onMounted(async () => {
@@ -184,27 +170,18 @@ export default defineComponent({
       */
     })
 
-    const goAppealPage = () => {
-      window.open(
-        Api.Base.AppealURL,
-        '_blank'
-      )
-    }
-
     const siteKey = computed(() => {
       //6LedtP4gAAAAAKBm1GWXalHnn6YEXlqpppqu9agg
       //6LedtP4gAAAAAGpFr7ZAoHZCIgbVHbKHtjAEgE8m
-      return '6LedtP4gAAAAAKBm1GWXalHnn6YEXlqpppqu9agg'
+      return Api.Base.CaptchaSiteKey
     })
 
     const handleError = () => {
-      debugger
-      // Do some validation
+      state.captcha = 0
     }
 
     const handleSuccess = (response) => {
-      debugger
-     // Do some validation
+      state.captcha = 1
     }
 
 
@@ -213,14 +190,10 @@ export default defineComponent({
       passwordFieldType,
       visibility,
       visibilityIcon,
-      creds,
-      goHome,
+      ...toRefs(state),
       goLoginPage,
-      doLogin,
+      resetPassword,
       switchVisibility,
-      url,
-      refresh,
-      goAppealPage,
       handleSuccess,
       handleError,
       siteKey,

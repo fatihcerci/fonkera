@@ -21,6 +21,7 @@
     "pdfmake": "^0.2.2",
     "quasar": "^2.2.2",
     "queue": "^6.0.2",
+    "vue-cryptojs": "^2.3.0",
     "vue-i18n": "^9.1.7",
     "vue-recaptcha": "^2.0.2",
     "vue3-apexcharts": "^1.4.1",
@@ -28,6 +29,7 @@
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.15.8",
+    "@intlify/vue-i18n-loader": "^4.2.0",
     "@quasar/app": "^3.1.8",
     "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.3.0",

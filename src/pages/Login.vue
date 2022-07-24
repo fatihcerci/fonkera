@@ -27,9 +27,13 @@
 
       </div>
 
+
+
       <div :class="$q.screen.gt.md ? 'col-4 justify-center items-center' : 'col-grow'" style="border-left:1px solid #ebebeb;" class="row  q-pa-lg">
 
-          <q-card flat square no-border class="full-width">
+
+
+        <q-card flat square no-border class="full-width">
 
           <q-card-section>
 
@@ -43,22 +47,20 @@
             </q-item>
 
 
-            <p class="q-pl-sm card-text-color font-24" style="font-weight:800 !important;">Fonkera'ya Hoşgeldiniz</p>
-            <p class="q-pl-sm font-13 text-grey-6">Aşağıdaki bilgileri doldurarak hesabınıza giriş yapabilirsiniz</p>
+            <p class="q-pl-sm card-text-color font-24" style="font-weight:800 !important;">{{ $t('login.welcomeMessage') }}</p>
+            <p class="q-pl-sm font-13 text-grey-6">{{ $t('login.loginDescription') }}</p>
 
 
+            <language />
 
             <q-form class="q-px-sm">
+
               <q-input
                 v-on:keyup.enter="doLogin"
-                ref="userCode"
                 outlined
                 clearable
-                v-model="creds.userCode"
-                type="input"
-                label="E-posta Adresi"
-                input-class="text-uppercase"
-                v-on:update:model-value="onKeyPress"
+                v-model="email"
+                :label="$t('login.email')"
               >
                 <template v-slot:prepend>
                   <q-icon name="person" />
@@ -66,18 +68,17 @@
               </q-input>
 
               <div class="row text-right justify-end" >
-                <a href="javascript:void(0)" class="q-pt-sm text-blue-5 font-13"  @click="goForgotPassword()"> Şifremi Unuttum ?</a>
+                <a href="javascript:void(0)" class="q-pt-sm text-blue-5 font-13"  @click="goForgotPassword()"> {{ $t('login.forgotPassword') }}</a>
               </div>
 
 
               <q-input
                 v-on:keyup.enter="doLogin"
-                ref="password"
                 outlined
                 clearable
-                v-model="creds.password"
+                v-model="password"
                 :type="passwordFieldType"
-                label="Şifre"
+                :label="$t('login.password')"
               >
                 <template v-slot:prepend>
                   <q-icon name="lock" />
@@ -98,6 +99,7 @@
                   :load-recaptcha-script="true"
                   @verify="handleSuccess"
                   @error="handleError"
+                  v-on:keyup.enter="doLogin"
                 ></VueRecaptcha>
               </div>
 
@@ -110,7 +112,7 @@
                 color="primary"
                 @click="doLogin"
                 class="full-width text-white text-capitalize"
-                label="Giriş Yap"
+                :label="$t('login.login')"
               />
             </q-card-actions>
 
@@ -124,66 +126,74 @@
   </q-page>
 </template>
 <script>
-import { defineComponent, ref, onMounted, computed} from "vue"
+import { defineComponent, ref, onMounted, computed, toRefs, reactive } from "vue"
 //import { useQuasar } from "quasar"
 import { useRouter } from "vue-router"
 //import usersService from "../services/usersService"
 import notify from "../helpers/notification"
 import { Api } from "../helpers/api"
 import { VueRecaptcha } from 'vue-recaptcha'
+import apiService from "../services/apiService"
+import cryptoService from "../services/cryptoService"
+import Language from "src/components/Language.vue"
+import { useI18n } from 'vue-i18n'
 
 export default defineComponent({
   name: "UserLogin",
   components: {
-    VueRecaptcha
+    VueRecaptcha,
+    Language
   },
   setup() {
     const router = useRouter()
     //const $q = useQuasar()
     //const { login, logout, hasUser, sessionInfo, displayError, displayMessages } = usersService()
+    const { fetch, dataList } = apiService()
+    const { encrypt, decrypt } = cryptoService()
+    const { t } = useI18n({ useScope: 'global' })
+
     const passwordFieldType = ref("password")
     const visibility = ref(false)
     const visibilityIcon = ref("visibility")
-    const creds = ref({
-      userCode: "",
+    const state = reactive({
+      email: "",
       password: "",
-      captcha: ""
+      captcha: 0
     })
 
-    const url = ref(Api.Base.ServiceURL + '/../simpleCaptcha.png?v='+Math.random())
-
     const doLogin = async () => {
-      /*try {
-        const { userCode, password, captcha } = creds.value
-        await login(userCode, password, captcha)
-        if (sessionInfo.value) {
-          localStorage.setItem(
-            "sessionInfo",
-            sessionInfo.value.extra.sessionInfo
-          )
-          localStorage.setItem("expertCode", userCode)
+      try {
+        if(!state.captcha) {
+          throw new Error(t('captcha'))
+        }
+
+        const bodyData = {
+          email: state.email,
+          password: state.password
+        }
+
+        await fetch("userop/login", bodyData, true)
+
+        if (dataList.value.data) {
+          localStorage.removeItem("sessionInfo")
+          localStorage.setItem("sessionInfo",encrypt(JSON.stringify(dataList.value.data)))
+
+          localStorage.removeItem("token")
+          localStorage.setItem("token", JSON.parse(dataList.value.data).token)
 
           if(sessionStorage.getItem("redirectPath")) {
-            router.replace(sessionStorage.getItem("redirectPath"))
+            router.push(sessionStorage.getItem("redirectPath"))
           } else {
-            router.replace("/")
+            notify().success(t('welcome')+ " " + JSON.parse(dataList.value.data).name + " " + JSON.parse(dataList.value.data).surname, "top")
+            router.push("/")
           }
-
         } else {
-          await logout()
-          router.replace("/login")
+          router.push("/login")
         }
-        if (displayError.value) throw new Error(displayMessages.value[0].text)
       } catch (e) {
-        refresh()
         notify().error(e.message)
-        router.replace("/login")
-      }*/
-      router.push("/")
-    }
-
-    const onKeyPress = () => {
-      alert(creds.value.userCode)
+        router.push("/login")
+      }
     }
 
     const switchVisibility = () => {
@@ -192,69 +202,43 @@ export default defineComponent({
       visibilityIcon.value = visibility.value ? "visibility_off" : "visibility"
     }
 
-    const goHome = () => {
-      router.push("/")
-      //router.replace("/")
-    }
-
     const goForgotPassword = () => {
       router.push("/forgotpassword")
     }
 
-    const refresh = () => {
-        url.value = Api.Base.ServiceURL + '/../simpleCaptcha.png?v='+Math.random()
-        creds.value.captcha = ""
-    }
-
     onMounted(async () => {
-      /*
-      if(hasUser()) {
-        goHome()
+      if(localStorage.getItem("sessionInfo")) {
+        router.push("/")
       }
-      */
     })
-
-    const goAppealPage = () => {
-      window.open(
-        Api.Base.AppealURL,
-        '_blank'
-      )
-    }
 
     const siteKey = computed(() => {
       //6LedtP4gAAAAAKBm1GWXalHnn6YEXlqpppqu9agg
       //6LedtP4gAAAAAGpFr7ZAoHZCIgbVHbKHtjAEgE8m
-      return '6LedtP4gAAAAAKBm1GWXalHnn6YEXlqpppqu9agg'
+      return Api.Base.CaptchaSiteKey
     })
 
     const handleError = () => {
-      debugger
+      state.captcha = 0
       // Do some validation
     }
 
     const handleSuccess = (response) => {
-      debugger
-     // Do some validation
+      state.captcha = 1
     }
-
 
     return {
       router,
       passwordFieldType,
       visibility,
       visibilityIcon,
-      creds,
-      goHome,
+      ...toRefs(state),
       goForgotPassword,
       doLogin,
       switchVisibility,
-      url,
-      refresh,
-      goAppealPage,
       handleSuccess,
       handleError,
-      siteKey,
-      onKeyPress,
+      siteKey
     }
   },
 })

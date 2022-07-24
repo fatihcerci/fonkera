@@ -113,7 +113,7 @@
 
           <q-space />
 
-
+          <!--
           <q-select class="language" borderless v-model="language" :options="options" :options-html="true">
             <template v-slot:selected>
               <q-chip
@@ -148,6 +148,7 @@
               </q-chip>
             </template>
           </q-select>
+          -->
 
           <q-btn flat round size="md" icon="search" @click="toggleSearchBox" />
 
@@ -157,15 +158,24 @@
 
           <q-item class="cursor-pointer">
             <q-item-section>
-              <q-item-label class="font-14 text-bold">Prof.Dr.Fatih Çerçi</q-item-label>
+              <q-item-label v-if="$q.screen.gt.sm" class="font-14 text-bold">{{ getUser().title }}</q-item-label>
             </q-item-section>
-            <q-item-section side v-if="$q.screen.gt.sm">
+            <q-item-section side >
               <q-avatar size="48px">
                 <img src="https://cdn.quasar.dev/img/avatar4.jpg" />
               </q-avatar>
             </q-item-section>
 
             <q-menu fit flat :offset="[40, 2]" class="user-menu no-shadow text-grey-7">
+              <q-item>
+                <q-item-section>
+                  <language />
+                </q-item-section>
+              </q-item>
+
+              <q-separator />
+
+
               <q-item clickable>
                 <q-item-section avatar>
                   <q-icon name="person" />
@@ -197,7 +207,7 @@
 
               <q-separator />
 
-              <q-item clickable v-ripple>
+              <q-item clickable v-ripple @click="logout">
                 <q-item-section avatar>
                   <q-icon name="logout" />
                 </q-item-section>
@@ -234,7 +244,7 @@
               <q-icon name="search" />
             </template>
 
-            <template v-slot:append > 
+            <template v-slot:append >
               <q-btn flat round size="sm" icon="close" @click="toggleSearchBox" />
             </template>
 
@@ -247,7 +257,7 @@
             </template>
 
             <template v-slot:option="scope">
-              
+
               <q-item v-bind="scope.itemProps" @click="test(scope.opt.value)">
                 <q-item-section avatar>
                   <q-icon :name="scope.opt.icon" style="display:none;" />
@@ -261,7 +271,7 @@
                 </q-item-section>
 
                 <!--
-                <q-tooltip transition-show="scale" transition-hide="scale" self="bottom center" :offset="[-500,-50]"> 
+                <q-tooltip transition-show="scale" transition-hide="scale" self="bottom center" :offset="[-500,-50]">
                   <q-card>
                     <q-card-section class="row justify-center items-center">
                       <q-avatar size="60px" class="justify-center items-center">
@@ -294,7 +304,7 @@
               </q-item>
             </template>
 
-            
+
 
           </q-select>
 
@@ -314,13 +324,13 @@
                 <q-icon name="search" />
               </template>
 
-              <template v-slot:append > 
+              <template v-slot:append >
                 <q-btn flat round size="sm" icon="close" @click="toggleSearchBox" />
               </template>
 
             </q-input>
           -->
-          
+
 
         </q-toolbar>
 
@@ -340,6 +350,10 @@ import { useQuasar } from 'quasar'
 import { useRouter } from "vue-router"
 
 import menuController from "../controllers/menuController"
+
+import userService from "../services/userService"
+import Language from "src/components/Language.vue"
+import apiService from 'src/services/apiService'
 
 const searchResults = [
   {
@@ -361,7 +375,8 @@ const searchResults = [
 export default {
   name: "MainLayout",
   components: {
-  },
+    Language
+},
   computed: {
     crumbs: function() {
       this.setMenu(this.$route.meta.menu)
@@ -426,7 +441,7 @@ export default {
 
     const leftDrawerOpen = ref(false)
     const searchBoxOpen = ref(false)
-    
+
     const state = reactive({
       search : ''
     })
@@ -434,35 +449,9 @@ export default {
     const searchResult = ref(searchResults)
 
     const { menu, getMenu, setMenu } = menuController()
+    const { getUser } = userService()
+    const { fetch } = apiService()
 
-    const language = ref({
-      label: "<img width='20px' src='flags/tr.svg' /> Türkçe",
-      labelStr: "Türkçe",
-
-      iconSrc: 'flags/tr.svg'
-    })
-
-    const options = [
-      {
-        label: "<img width='20px' src='flags/tr.svg' /> Türkçe",
-        labelStr: "Türkçe",
-        iconSrc: 'flags/tr.svg'
-      },
-      {
-        label: "<img width='20px' src='flags/az.svg' /> Azərbaycanca",
-        labelStr: "Azərbaycanca",
-        iconSrc: 'flags/az.svg'
-      },
-      {
-        label: "<img width='20px' src='flags/us.svg' /> English",
-        labelStr: "English",
-        iconSrc: 'flags/us.svg'
-      },
-    ]
-
-    const getIcon = computed(() => {
-      return language.value.iconSrc
-    })
 
     const test = (val) => {
       alert("OID:" + val)
@@ -470,7 +459,9 @@ export default {
 
 
     onMounted(async () => {
-
+      if(!localStorage.getItem("sessionInfo")) {
+        router.push("/login")
+      }
     })
 
     return {
@@ -479,9 +470,7 @@ export default {
       expanded,
       getMenu,
       setMenu,
-      language,
-      options,
-      getIcon,
+      getUser,
       leftDrawerOpen,
       toggleLeftDrawer () {
         leftDrawerOpen.value = !leftDrawerOpen.value
@@ -503,7 +492,13 @@ export default {
           searchResult.value = searchResults.filter(v => v.label.toLowerCase().indexOf(needle) > -1)
         })
       },
-      test
+      test,
+      logout : async () => {
+        await fetch("userop/logout", {id:getUser().id}, true)
+        localStorage.removeItem('sessionInfo')
+        localStorage.removeItem('token')
+        router.push('/login')
+      },
 
     }
   },

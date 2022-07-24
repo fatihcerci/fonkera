@@ -1,51 +1,26 @@
 export default {
-  failed: 'İşlem hatalı',
-  success: 'İşlem başarılı',
-  appName: 'Çağrı Merkezi',
-  timeline: 'Zaman Çizelgesi',
-  drawerMenu: {
-    title: {
-      home: 'Ana Sayfa',
-      customerInformations: 'Müşteri Bilgileri',
-      agencyInformations: 'Acente Bilgileri',
-      serviceInformations: 'Servis Bilgileri',
-      expertInformations: 'Eksper Bilgileri',
-      supplierInformations: 'Tedarikçi Bilgileri',
-      lawyerInformations: 'Avukat Bilgileri',
-      claimOperations: 'Hasar İşlemleri',
-      fileInformations: 'Dosya Bilgileri',
-      saveNotice: 'İhbar Kaydet',
-      policyOperations: 'Poliçe İşlemleri',
-      carmaOperations: 'Carma İşlemleri',
-
-    },
-    caption: {
-      home: 'Ana Sayfa',
-      customerInformations: 'Müşteri Bilgileri',
-      claimOperations: 'Hasar İşlemleri',
-      policyOperations: 'Poliçe İşlemleri',
-      carmaOperations: 'Carma İşlemleri',
-    },
+  appMessages : {
+    MSG0000 : "Oturumunuzun süresi doldu, lütfen tekrar giriş yapın",
+    MSG0001 : "Kullanıcı hesabınız aktif değil",
+    MSG0002 : "E-posta veya şifre yanlış",
+    MSG0003 : "Kullanıcı hesabı bulunamadı",
+    MSG0004 : "Şifreniz sıfırlandı, lütfen e-postanızı kontrol edin",
   },
-  card: {
-    title: {
-      claimFiles: 'Hasar Dosyaları',
-      customers: 'Müşteriler',
-      operations: 'İşlemler',
-      messages: 'Mesajlar',
-      policies: 'Poliçeler',
-      carma: 'Carma',
-      recentCall: 'Son Aramalar'
-    }
+  welcome: 'Hoşgeldiniz',
+  captcha: "Lütfen Ben robot değilim işaretlemesini yapın",
+  login : {
+    welcomeMessage : "Fonkera'ya Hoşgeldiniz",
+    loginDescription : "Aşağıdaki bilgileri doldurarak hesabınıza giriş yapabilirsiniz",
+    email : "E-posta Adresi",
+    forgotPassword : "Şifremi Unuttum?",
+    password : "Şifre",
+    login : "Giriş Yap"
   },
-  table: {
-    rowsPerPageLabel: 'Sayfa başına kayıt:'
-  },
-  notify: {
-    success: {
-      table: {
-        delete: 'Kayıt başarıyla silindi'
-      }
-    }
+  forgotPassword : {
+    title : "Şifremi Unuttum",
+    description : "Sisteme kayıtlı e-posta adresinizi girerek şifrenizi sıfırlayabilirsiniz",
+    email : "E-posta Adresi",
+    resetPassword : "Şifremi Sıfırla",
+    goBackLogin : "Giriş Sayfasına Dön"
   }
 }

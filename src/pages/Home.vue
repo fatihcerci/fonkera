@@ -91,7 +91,7 @@
 
       <div class="col-md-4" v-bind:class="{ 'q-pr-md' : $q.screen.gt.sm}">
         <q-card class="shadow-25" style="min-height: 486px">
-          <img height="158" class="image-bg" src="https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/demo-1/img/email.de935b8f.svg"> 
+          <img height="158" class="image-bg" src="https://pixinvent.com/demo/vuexy-vuejs-admin-dashboard-template/demo-1/img/email.de935b8f.svg">
           <!-- <img height="158" class="image-bg" src="~/assets/meeting.svg"> -->
 
           <q-card-section class="row">
