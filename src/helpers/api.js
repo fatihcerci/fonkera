@@ -1,10 +1,10 @@
 export class Api {
   static Base = class {
-    //static get URL() { return "http://localhost/fonkerarest" }
-    //static get CaptchaSiteKey() { return "6LedtP4gAAAAAKBm1GWXalHnn6YEXlqpppqu9agg" }
+    static get URL() { return "http://localhost/fonkerarest" }
+    static get CaptchaSiteKey() { return "6LedtP4gAAAAAKBm1GWXalHnn6YEXlqpppqu9agg" }
 
-    static get URL() { return "http://ironpunch.org/fonkerarest" }
-    static get CaptchaSiteKey() { return "6LetYxchAAAAAK00I90Nor14XOfKpaT_i_L35aqn" }
+    //static get URL() { return "http://ironpunch.org/fonkerarest" }
+    //static get CaptchaSiteKey() { return "6LetYxchAAAAAK00I90Nor14XOfKpaT_i_L35aqn" }
 
   }
 
