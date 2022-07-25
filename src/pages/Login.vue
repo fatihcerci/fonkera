@@ -22,7 +22,7 @@
           </q-toolbar>
 
         <div class="row items-center justify-center">
-          <img src="~/assets/login5.svg"/>
+          <img src="~/assets/login5.svg" style="width:95%" />
         </div>
 
       </div>

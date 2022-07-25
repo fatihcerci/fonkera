@@ -22,7 +22,7 @@
           </q-toolbar>
 
         <div class="row items-center justify-center q-pt-xl">
-          <img src="~/assets/forgot_password2.svg"/>
+          <img src="~/assets/forgot_password2.svg" style="width:95%"/>
         </div>
 
       </div>

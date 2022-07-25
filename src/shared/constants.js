@@ -4,7 +4,7 @@ export const DEFAULT_CALLBACKS = {
   onNextStep: (currentStep) => {},
   onStop: () => {},
   onSkip: () => {},
-  onFinish: () => {}
+  onFinish: () => {console.log("Bitti")}
 }
 
 export const DEFAULT_OPTIONS = {
