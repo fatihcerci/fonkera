@@ -25,6 +25,7 @@
     "vue-i18n": "^9.1.7",
     "vue-recaptcha": "^2.0.2",
     "vue3-apexcharts": "^1.4.1",
+    "vue3-tour": "^0.3.1",
     "vuex": "^4.0.1"
   },
   "devDependencies": {

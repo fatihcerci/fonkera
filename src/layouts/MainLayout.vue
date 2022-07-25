@@ -156,7 +156,7 @@
             <q-badge color="red" class="" rounded floating>5</q-badge>
           </q-btn>
 
-          <q-item class="cursor-pointer">
+          <q-item class="cursor-pointer v-step-0">
             <q-item-section>
               <q-item-label v-if="$q.screen.gt.sm" class="font-14 text-bold">{{ getUser().title }}</q-item-label>
             </q-item-section>

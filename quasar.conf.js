@@ -27,6 +27,7 @@ module.exports = configure(function (ctx) {
       'i18n',
       'apex',
       'crypto',
+      'tour',
       'store',
       'disableAll'
     ],

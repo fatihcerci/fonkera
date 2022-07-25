@@ -1,12 +1,13 @@
 <template>
   <q-page q-layout view="hHh lpR fFf" class="q-pt-md q-pl-md q-pr-md">
+    <v-tour name="myTour" :steps="steps"></v-tour>
 
     <q-card flat class="shadow-25 q-pb-sm">
       <q-card-section class="row">
         <div class="col-md-2 ">
           <q-item class="cursor-pointer q-pa-none q-pt-sm">
             <q-item-section avatar>
-              <q-btn flat round size="lg" icon="groups" class="bg-deep-purple-2 text-deep-purple-9" />
+              <q-btn flat round size="lg" icon="groups" class="bg-deep-purple-2 text-deep-purple-9  v-step-1" />
             </q-item-section>
 
             <q-item-section>
@@ -16,10 +17,10 @@
           </q-item>
         </div>
 
-        <div class="col-md-2">
+        <div class="col-md-2 ">
           <q-item class="cursor-pointer q-pa-none q-pt-sm">
             <q-item-section avatar>
-              <q-btn flat round size="lg" icon="pending_actions" class="bg-yellow-2 text-yellow-9" />
+              <q-btn flat round size="lg" icon="pending_actions" class="bg-yellow-2 text-yellow-9 v-step-2" />
             </q-item-section>
 
             <q-item-section>
@@ -32,7 +33,7 @@
         <div class="col-md-2">
           <q-item class="cursor-pointer q-pa-none q-pt-sm">
             <q-item-section avatar>
-              <q-btn flat round size="lg" icon="pending" class="bg-red-2 text-red-9" />
+              <q-btn flat round size="lg" icon="pending" class="bg-red-2 text-red-9 v-step-3" />
             </q-item-section>
 
             <q-item-section>
@@ -530,21 +531,21 @@ export default {
   components: {
 
   },
-
+  mounted: function () {
+    this.$tours['myTour'].start()
+  },
   setup() {
 
-    const { fetch, dataList } = apiService()
+    const { fetch } = apiService()
 
     onMounted(async () => {
       try {
         const bodyData = {
         }
         await fetch("users/test_connection", bodyData, true)
-        console.log(dataList.value)
       } catch (e) {
       }
     })
-
 
     return {
       thumbStyle: {
@@ -573,7 +574,38 @@ export default {
       series: [{
         name: 'Toplam Randevu',
         data: [10, 15, 5, 7, 8, 10, 20, 10, 9, 25, 18, 12]
-      }]
+      }],
+
+      steps: [
+        {
+          target: '.v-step-0',
+          header: {
+            title: 'Step 1',
+          },
+          content: 'Try it, you\'ll love it!<br>You can put HTML in the steps and completely customize the DOM to suit your needs.',
+        },
+        {
+          target: '.v-step-1',
+          header: {
+            title: 'Step 2',
+          },
+          content: 'Try it, you\'ll love it!<br>You can put HTML in the steps and completely customize the DOM to suit your needs.',
+        },
+        {
+          target: '.v-step-2',
+          header: {
+            title: 'Step 3',
+          },
+          content: 'Try it, you\'ll love it!<br>You can put HTML in the steps and completely customize the DOM to suit your needs.',
+        },
+        {
+          target: '.v-step-3',
+          header: {
+            title: 'Step 4',
+          },
+          content: 'Try it, you\'ll love it!<br>You can put HTML in the steps and completely customize the DOM to suit your needs.',
+        }
+      ],
     }
   },
 }
