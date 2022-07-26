@@ -150,7 +150,7 @@
           </q-select>
           -->
 
-          <q-btn flat round size="md" icon="search" @click="toggleSearchBox" />
+          <q-btn flat round size="md" icon="search" @click="toggleSearchBox" class="v-step-4" />
 
           <q-btn flat round size="md" icon="notifications">
             <q-badge color="red" class="" rounded floating>5</q-badge>

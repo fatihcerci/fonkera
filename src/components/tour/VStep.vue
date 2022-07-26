@@ -5,8 +5,15 @@
     </div> -->
     <div class="v-step" :id="'v-step-' + hash" ref="VStep" :x-placement="getPlacement">
       <slot name="header">
-        <div v-if="step.header" class="v-step__header">
-          <div v-if="step.header.title" v-html="step.header.title"></div>
+        <div v-if="step.header" class="v-step__header row justify-center items-center">
+          <q-avatar size="45px" class="q-pt-sm" style="position:absolute !important; left:10px !important; top:0px !important; display:block;">
+            <img src="~/assets/robot.png" />
+          </q-avatar>
+          <div v-if="step.header.title" v-html="step.header.title">
+            
+          </div>
+          
+          
         </div>
       </slot>
 
@@ -215,12 +222,12 @@ export default {
 <style lang="scss" scoped>
 
   .v-step {
-    background: linear-gradient(180deg,#7367f0,rgba(115,103,240,.8));
-    box-shadow: 0 0 20px 1px rgb(115 103 240 / 50%);
+    background: linear-gradient(180deg,#7367f0,rgba(115,103,240,0.8));
+    box-shadow: 0 0 20px 1px rgb(115 103 240 / 40%);
     color: white;
     max-width: 320px;
     border-radius: 3px;
-    filter: drop-shadow(0 0 2px rgba(0, 0, 0, 0.5));
+    filter: drop-shadow(0 0 2px rgba(0,0,0,0.3));
     padding: 1rem;
     text-align: center;
     z-index: 10000;

@@ -5,9 +5,9 @@
     <q-card flat class="shadow-25 q-pb-sm">
       <q-card-section class="row">
         <div class="col-md-2 ">
-          <q-item class="cursor-pointer q-pa-none q-pt-sm">
+          <q-item class="cursor-pointer q-pa-none q-pt-sm v-step-1">
             <q-item-section avatar>
-              <q-btn flat round size="lg" icon="groups" class="bg-deep-purple-2 text-deep-purple-9  v-step-1" />
+              <q-btn flat round size="lg" icon="groups" class="bg-deep-purple-2 text-deep-purple-9  " />
             </q-item-section>
 
             <q-item-section>
@@ -18,9 +18,9 @@
         </div>
 
         <div class="col-md-2 ">
-          <q-item class="cursor-pointer q-pa-none q-pt-sm">
+          <q-item class="cursor-pointer q-pa-none q-pt-sm v-step-2">
             <q-item-section avatar>
-              <q-btn flat round size="lg" icon="pending_actions" class="bg-yellow-2 text-yellow-9 v-step-2" />
+              <q-btn flat round size="lg" icon="pending_actions" class="bg-yellow-2 text-yellow-9 " />
             </q-item-section>
 
             <q-item-section>
@@ -31,9 +31,9 @@
         </div>
 
         <div class="col-md-2">
-          <q-item class="cursor-pointer q-pa-none q-pt-sm">
+          <q-item class="cursor-pointer q-pa-none q-pt-sm v-step-3">
             <q-item-section avatar>
-              <q-btn flat round size="lg" icon="pending" class="bg-red-2 text-red-9 v-step-3" />
+              <q-btn flat round size="lg" icon="pending" class="bg-red-2 text-red-9 " />
             </q-item-section>
 
             <q-item-section>
@@ -602,6 +602,13 @@ export default {
           target: '.v-step-3',
           header: {
             title: 'Step 4',
+          },
+          content: 'Try it, you\'ll love it!<br>You can put HTML in the steps and completely customize the DOM to suit your needs.',
+        },
+        {
+          target: '.v-step-4',
+          header: {
+            title: 'Step 5',
           },
           content: 'Try it, you\'ll love it!<br>You can put HTML in the steps and completely customize the DOM to suit your needs.',
         }

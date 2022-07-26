@@ -221,7 +221,8 @@ export default {
     pointer-events: auto;
   }
   .v-tour__target--highlighted {
-    box-shadow: 0 0 0 4px rgba(0,0,0,.4);
+    box-shadow: 0px 0px 0px 9999px rgb(0 0 0 / 45%) !important;
+    border-radius:4px;
     pointer-events: auto;
     z-index: 9999;
   }
