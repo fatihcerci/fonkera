@@ -531,20 +531,23 @@ export default {
   components: {
 
   },
-  mounted: function () {
-    this.$tours['myTour'].start()
+  mounted: async function () {
+    //this.$tours['myTour'].start()
+    debugger
+    try {
+      const { fetch } = apiService()
+
+      const bodyData = {
+      }
+      await fetch("users/test_connection", bodyData, true)
+
+      this.$tours['myTour'].start()
+    } catch (e) {
+    }
   },
   setup() {
-
-    const { fetch } = apiService()
-
     onMounted(async () => {
-      try {
-        const bodyData = {
-        }
-        await fetch("users/test_connection", bodyData, true)
-      } catch (e) {
-      }
+      
     })
 
     return {
