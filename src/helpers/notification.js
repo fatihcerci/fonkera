@@ -37,7 +37,7 @@ const notification = () => {
     Notify.create({
       message: message,
       textColor: "white",
-      color: "deep-purple-5",
+      color: "deep-purple-4",
       position: !pos ? "bottom" : pos,
       classes: 'glossy',
       icon : 'check'

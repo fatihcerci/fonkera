@@ -156,8 +156,8 @@ export default defineComponent({
     const visibility = ref(false)
     const visibilityIcon = ref("visibility")
     const state = reactive({
-      email: "",
-      password: "",
+      email: "fatihcerci001@gmail.com",
+      password: "123456",
       captcha: 0
     })
 
@@ -242,4 +242,5 @@ export default defineComponent({
     }
   },
 })
+
 </script>

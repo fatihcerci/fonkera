@@ -91,7 +91,7 @@
 
 
 
-    <q-page-container class="q-pt-md bg-grey-2">
+    <q-page-container class="q-pt-md bg-fonkera">
       <!--
       <div class="q-pa-sm" v-if="$q.screen.gt.sm">
           <q-toolbar class="bg-grey-8 text-white font-12 shadow-1 rounded-borders">
@@ -532,8 +532,8 @@ export default {
   .menu-active {
     background: linear-gradient(118deg,#7367f0,rgba(115,103,240,.7)) !important;
     color : white !important;
-    -webkit-box-shadow: 0 0 10px 1px rgb(115 103 240 / 70%) !important;
-    box-shadow: 0 0 10px 1px rgba(115,103,240,.7) !important;
+    /*-webkit-box-shadow: 0 0 10px 1px rgb(115 103 240 / 70%) !important;
+    box-shadow: 0 0 10px 1px rgba(115,103,240,.7) !important;*/
     border-radius: 4px !important;
   }
 
